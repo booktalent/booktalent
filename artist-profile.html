@@ -340,10 +340,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 48px;height:68px;
 
         <!-- AVAILABILITY CALENDAR -->
         <div class="section-card">
-          <div class="sc-title">Availability — December 2025</div>
+          <div class="sc-title">Availability — June 2026</div>
           <div class="calendar-header">
             <button class="cal-nav" onclick="changeMonth(-1)">‹</button>
-            <div class="cal-month" id="calMonthLabel">December 2025</div>
+            <div class="cal-month" id="calMonthLabel">June 2026</div>
             <button class="cal-nav" onclick="changeMonth(1)">›</button>
           </div>
           <div class="cal-grid" id="calGrid">
@@ -688,7 +688,7 @@ function showToast(msg) {
 // Calendar
 const bookedDays = [3,7,14,15,21,26,28];
 const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-let currentMonth = 11; let currentYear = 2025; let selectedDay = null;
+let currentMonth = 5; let currentYear = 2026; let selectedDay = null;
 
 function renderCalendar() {
   document.getElementById('calMonthLabel').textContent = months[currentMonth]+' '+currentYear;

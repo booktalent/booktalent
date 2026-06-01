@@ -323,7 +323,7 @@ textarea.field-input{resize:vertical;min-height:100px}
   </a>
   <div style="display:flex;align-items:center;gap:12px">
     <div class="nav-secure">🔒 Secure Booking</div>
-    <!--<div class="nav-help" onclick="showToast('💬 Support chat opening…')">Need Help?</div>-->
+       <!-- <div class="nav-help" onclick="showToast('💬 Support chat opening…')">Need Help?</div> -->
     <div class="nav-help"><a href="support.html">Need Help?</a></div>
   </div>
 </nav>
@@ -470,7 +470,7 @@ textarea.field-input{resize:vertical;min-height:100px}
             <div class="cal-head">
               <div class="cal-month">
                 <button class="cal-btn" onclick="changeCalMonth(-1)">‹</button>
-                <span id="calMonthLabel">Jun 2026</span>
+                <span id="calMonthLabel">December 2025</span>
                 <button class="cal-btn" onclick="changeCalMonth(1)">›</button>
               </div>
               <div style="font-size:12px;color:var(--white-muted)">
@@ -632,7 +632,7 @@ textarea.field-input{resize:vertical;min-height:100px}
           <div class="review-section">
             <div class="review-section-title">Schedule</div>
             <div class="review-rows">
-              <div class="review-row"><span class="review-row-label">📅 Date</span><span class="review-row-value" id="rv-date">Jun 01, 2026 <span class="edit-link" onclick="gotoStep(2)">Edit</span></span></div>
+              <div class="review-row"><span class="review-row-label">📅 Date</span><span class="review-row-value" id="rv-date">Dec 21, 2025 <span class="edit-link" onclick="gotoStep(2)">Edit</span></span></div>
               <div class="review-row"><span class="review-row-label">⏰ Time</span><span class="review-row-value" id="rv-time">9:00 PM</span></div>
             </div>
           </div>
@@ -805,11 +805,11 @@ textarea.field-input{resize:vertical;min-height:100px}
           </div>
           <div class="success-title">Booking <span>Confirmed!</span></div>
           <div class="success-sub">Your booking with <strong>Priya Sharma</strong> is officially confirmed. Priya has been notified and your auto-generated contract is ready.</div>
-          <div class="booking-ref">Booking Ref: BT-2026-48214</div>
+          <div class="booking-ref">Booking Ref: BT-2025-48214</div>
           <div class="success-details">
             <div class="sd-row"><span class="sd-label">🎤 Artist</span><span class="sd-val">Priya Sharma</span></div>
             <div class="sd-row"><span class="sd-label">📦 Package</span><span class="sd-val" id="s-pkg">Premium Bollywood</span></div>
-            <div class="sd-row"><span class="sd-label">📅 Date</span><span class="sd-val" id="s-date">Jun 01, 2026 · 9:00 PM</span></div>
+            <div class="sd-row"><span class="sd-label">📅 Date</span><span class="sd-val" id="s-date">Dec 21, 2025 · 9:00 PM</span></div>
             <div class="sd-row"><span class="sd-label">📍 Venue</span><span class="sd-val" id="s-venue">—</span></div>
             <div class="sd-row"><span class="sd-label">💰 Token Paid</span><span class="sd-val" style="color:var(--green)" id="s-token">₹2,750</span></div>
             <div class="sd-row"><span class="sd-label">💳 Balance Due</span><span class="sd-val" id="s-balance">₹62,150 (before event)</span></div>
@@ -895,7 +895,7 @@ let state = {
   pkgDur: '3 Hours',
   addons: {},
   addonTotal: 0,
-  date: 'Jun 1, 2026',
+  date: 'Dec 21, 2025',
   time: '9:00 PM',
   termsAgreed: false,
   payMethod: 'card',
@@ -903,7 +903,7 @@ let state = {
 
 const bookedDays = [3, 7, 12, 14, 20, 26];
 const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-let calMonth = 5, calYear = 2026, selectedDay = 1;
+let calMonth = 11, calYear = 2025, selectedDay = 21;
 
 // ════════ STEP NAVIGATION ════════
 function nextStep() { if(state.step < 5) gotoStep(state.step + 1); }
@@ -1013,7 +1013,7 @@ function buildCal() {
     const isPast = (calYear < today.getFullYear()) || (calYear===today.getFullYear() && calMonth<today.getMonth()) || (calYear===today.getFullYear() && calMonth===today.getMonth() && d < todayN);
     if(isPast) el.className='cal-day past';
     else if(bookedDays.includes(d)) el.className='cal-day booked';
-    else if(d===selectedDay && calMonth===6 && calYear===2026) el.className='cal-day selected';
+    else if(d===selectedDay && calMonth===11 && calYear===2025) el.className='cal-day selected';
     else if(d===todayN && calMonth===today.getMonth() && calYear===today.getFullYear()) el.className='cal-day today available';
     else el.className='cal-day available';
 
@@ -1205,8 +1205,8 @@ function showToast(msg, type='') {
 
 // init
 updateTotals();
-// Show time slots by default since day 01 is pre-selected
-document.getElementById('selectedDateText').textContent = '1 June, 2026';
+// Show time slots by default since day 21 is pre-selected
+document.getElementById('selectedDateText').textContent = '21 December, 2025';
 document.getElementById('timeSlotSection').style.display='block';
 document.getElementById('noDateHint').style.display='none';
 </script>

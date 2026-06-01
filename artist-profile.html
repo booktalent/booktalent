@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Priya Sharma — Artist Profile | BookTalent</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#090912;--bg2:#0E0E1C;--bg3:#13132A;
+  --purple:#6D28D9;--purple-mid:#8B5CF6;--purple-light:#A78BFA;
+  --gold:#D4AF37;--gold-light:#F5C842;--gold-dim:#8C7523;
+  --white:#F8F5FF;--white-muted:rgba(248,245,255,0.6);--white-dim:rgba(248,245,255,0.2);
+  --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);
+  --green:#34D399;--red:#F87171;
+  --radius:16px;--radius-sm:10px;--radius-xl:24px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 48px;height:68px;display:flex;align-items:center;justify-content:space-between;background:rgba(9,9,18,0.6);backdrop-filter:blur(24px);border-bottom:1px solid var(--glass-border)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),var(--purple-mid));border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;color:#1A0B00;box-shadow:0 0 18px rgba(212,175,55,0.35)}
+.logo-text{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;color:var(--white)}
+.logo-text span{color:var(--gold-light)}
+.nav-r{display:flex;align-items:center;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .25s;text-decoration:none;border:none;letter-spacing:.02em}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#B8960C);color:#1A0B00;font-weight:600;box-shadow:0 4px 24px rgba(212,175,55,.3)}
+.btn-gold:hover{box-shadow:0 6px 36px rgba(212,175,55,.5);transform:translateY(-1px)}
+.btn-purple{background:linear-gradient(135deg,var(--purple),#4C1D95);color:var(--white);font-weight:600;box-shadow:0 4px 20px rgba(109,40,217,.35)}
+.btn-purple:hover{box-shadow:0 6px 32px rgba(109,40,217,.55);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--white-muted);border:1px solid var(--glass-border)}
+.btn-ghost:hover{border-color:var(--white-dim);color:var(--white)}
+.btn-outline{background:transparent;color:var(--gold-light);border:1px solid var(--gold-dim)}
+.btn-outline:hover{background:rgba(212,175,55,.08);border-color:var(--gold)}
+
+/* LAYOUT */
+.container{max-width:1200px;margin:0 auto;padding:0 48px;position:relative;z-index:1}
+.page-wrap{display:grid;grid-template-columns:1fr 360px;gap:36px;padding-top:36px;align-items:start}
+
+/* HERO COVER */
+.hero-cover{position:relative;height:380px;border-radius:var(--radius-xl);overflow:hidden;margin-bottom:0}
+.cover-bg{width:100%;height:100%;background:linear-gradient(135deg,#1A0B3B 0%,#2D1B69 40%,#6D28D9 70%,#D4AF37 100%);display:flex;align-items:center;justify-content:center;font-size:100px;opacity:.6}
+.cover-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(9,9,18,1) 0%,rgba(9,9,18,.6) 40%,transparent 80%)}
+.cover-actions{position:absolute;top:24px;right:24px;display:flex;gap:10px}
+.cover-btn{padding:8px 16px;border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;transition:all .25s;border:none;backdrop-filter:blur(12px)}
+.cover-btn-share{background:rgba(255,255,255,.1);color:var(--white);border:1px solid var(--glass-border)}
+.cover-btn-share:hover{background:rgba(255,255,255,.18)}
+.cover-btn-wish{background:rgba(212,175,55,.15);color:var(--gold-light);border:1px solid rgba(212,175,55,.25)}
+.cover-btn-wish:hover{background:rgba(212,175,55,.25)}
+
+/* ARTIST IDENTITY */
+.artist-identity{display:flex;align-items:flex-end;gap:24px;padding:0 32px;margin-top:-80px;position:relative;z-index:2;margin-bottom:24px}
+.artist-avatar{width:120px;height:120px;border-radius:50%;border:4px solid var(--gold);background:linear-gradient(135deg,#1A0B3B,#6D28D9);display:flex;align-items:center;justify-content:center;font-size:48px;flex-shrink:0;box-shadow:0 0 30px rgba(212,175,55,.3)}
+.artist-id-info{flex:1;padding-bottom:8px}
+.artist-name-xl{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--white);line-height:1;margin-bottom:6px}
+.artist-sub{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.verified-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);font-size:11px;font-weight:600;color:var(--green)}
+.category-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 12px;border-radius:100px;background:rgba(109,40,217,.15);border:1px solid rgba(109,40,217,.3);font-size:12px;color:var(--purple-light)}
+.location-text{font-size:13px;color:var(--white-muted);display:flex;align-items:center;gap:4px}
+
+/* QUICK STATS BAR */
+.quick-stats{display:flex;gap:0;background:var(--bg2);border:1px solid var(--glass-border);border-radius:var(--radius);overflow:hidden;margin:0 0 28px}
+.qs-item{flex:1;padding:18px 20px;text-align:center;border-right:1px solid var(--glass-border)}
+.qs-item:last-child{border-right:none}
+.qs-num{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold-light);margin-bottom:3px}
+.qs-label{font-size:11px;color:var(--white-muted);letter-spacing:.04em}
+
+/* TABS */
+.tab-nav{display:flex;gap:4px;background:var(--bg2);border:1px solid var(--glass-border);border-radius:100px;padding:5px;margin-bottom:28px;width:fit-content}
+.tab-btn{padding:8px 20px;border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;transition:all .25s;border:none;background:transparent;color:var(--white-muted);font-family:'DM Sans',sans-serif}
+.tab-btn.active{background:linear-gradient(135deg,var(--purple),#4C1D95);color:var(--white);box-shadow:0 4px 16px rgba(109,40,217,.4)}
+
+/* CONTENT SECTIONS */
+.section-card{background:var(--bg2);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+.sc-title{font-size:14px;font-weight:600;color:var(--white);letter-spacing:.04em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.sc-title::before{content:'';display:block;width:3px;height:16px;border-radius:2px;background:var(--gold)}
+
+/* BIO */
+.bio-text{font-size:15px;color:var(--white-muted);line-height:1.8}
+.bio-text .highlight{color:var(--white);font-weight:500}
+
+/* MEDIA GALLERY */
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gallery-item{border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1;background:var(--bg3);border:1px solid var(--glass-border);cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;font-size:36px;position:relative}
+.gallery-item:hover{transform:scale(1.03);border-color:rgba(212,175,55,.3)}
+.gallery-item .play-icon{position:absolute;inset:0;background:rgba(9,9,18,.5);display:flex;align-items:center;justify-content:center;font-size:28px;opacity:0;transition:opacity .3s}
+.gallery-item:hover .play-icon{opacity:1}
+.gi1{background:linear-gradient(135deg,#1A0B3B,#4C1D95)}
+.gi2{background:linear-gradient(135deg,#3B1A00,#92400E)}
+.gi3{background:linear-gradient(135deg,#0B1A3B,#1E3A5F)}
+.gi4{background:linear-gradient(135deg,#1A3B0B,#2D6919)}
+.gi5{background:linear-gradient(135deg,#3B0B1A,#69192D)}
+.gi6{background:linear-gradient(135deg,#1B0B3B,#3B1A69)}
+
+/* PACKAGES */
+.packages-grid{display:flex;flex-direction:column;gap:12px}
+.pkg-card{border-radius:var(--radius-sm);padding:20px;border:1px solid var(--glass-border);background:rgba(255,255,255,.02);transition:all .3s;cursor:pointer;position:relative}
+.pkg-card:hover{border-color:rgba(212,175,55,.25);background:rgba(212,175,55,.03)}
+.pkg-card.popular{border-color:rgba(212,175,55,.3);background:rgba(212,175,55,.04)}
+.pkg-popular-tag{position:absolute;top:-1px;right:16px;background:linear-gradient(135deg,var(--gold),#B8960C);color:#1A0B00;font-size:10px;font-weight:700;padding:3px 10px;border-radius:0 0 8px 8px;letter-spacing:.05em}
+.pkg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.pkg-name{font-size:15px;font-weight:600;color:var(--white)}
+.pkg-price{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold-light)}
+.pkg-price span{font-size:13px;font-weight:400;font-family:'DM Sans',sans-serif;color:var(--white-muted)}
+.pkg-features{list-style:none;display:flex;flex-direction:column;gap:6px}
+.pkg-features li{font-size:13px;color:var(--white-muted);display:flex;align-items:center;gap:8px}
+.pkg-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+
+/* REVIEWS */
+.review-summary{display:flex;align-items:center;gap:32px;padding:24px;background:rgba(212,175,55,.04);border:1px solid rgba(212,175,55,.1);border-radius:var(--radius);margin-bottom:20px}
+.rs-big{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:700;color:var(--gold-light);line-height:1}
+.rs-stars{font-size:20px;color:var(--gold);letter-spacing:3px;margin-bottom:4px}
+.rs-count{font-size:13px;color:var(--white-muted)}
+.rating-bars{flex:1}
+.rb-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.rb-label{font-size:12px;color:var(--white-muted);width:30px;text-align:right;flex-shrink:0}
+.rb-bar{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.rb-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--purple-mid))}
+.rb-count{font-size:12px;color:var(--white-muted);width:24px;flex-shrink:0}
+
+.review-card{padding:20px 0;border-bottom:1px solid var(--glass-border)}
+.review-card:last-child{border-bottom:none}
+.review-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.reviewer{display:flex;align-items:center;gap:12px}
+.reviewer-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1A0B3B,#4C1D95);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:'Cormorant Garamond',serif;color:var(--gold-light);border:1px solid var(--glass-border);flex-shrink:0}
+.reviewer-name{font-size:14px;font-weight:600;color:var(--white)}
+.reviewer-date{font-size:12px;color:var(--white-muted)}
+.review-stars{font-size:13px;color:var(--gold)}
+.review-text{font-size:14px;color:var(--white-muted);line-height:1.75}
+
+/* AVAILABILITY CALENDAR */
+.calendar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.cal-month{font-size:16px;font-weight:600;color:var(--white)}
+.cal-nav{width:32px;height:32px;border-radius:8px;background:var(--glass);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--white-muted);transition:all .25s;font-size:16px}
+.cal-nav:hover{border-color:rgba(212,175,55,.3);color:var(--gold-light)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-day-label{text-align:center;font-size:11px;font-weight:600;color:var(--white-muted);letter-spacing:.05em;padding:4px 0}
+.cal-day{height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:all .2s;color:var(--white-muted)}
+.cal-day:hover{background:rgba(109,40,217,.2);color:var(--white)}
+.cal-day.available{color:var(--white);background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2)}
+.cal-day.booked{color:rgba(248,245,255,.3);background:rgba(248,113,113,.06);text-decoration:line-through;cursor:not-allowed}
+.cal-day.today{background:linear-gradient(135deg,rgba(109,40,217,.3),rgba(212,175,55,.2));border:1px solid rgba(212,175,55,.3);color:var(--gold-light);font-weight:600}
+.cal-day.empty{cursor:default}
+.cal-day.selected{background:linear-gradient(135deg,var(--purple),#4C1D95);color:var(--white);font-weight:600}
+.cal-legend{display:flex;gap:16px;margin-top:14px}
+.cleg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--white-muted)}
+.cleg-dot{width:10px;height:10px;border-radius:50%}
+.cleg-avail{background:var(--green);opacity:.6}
+.cleg-booked{background:var(--red);opacity:.5}
+
+/* SIDEBAR BOOKING CARD */
+.booking-sidebar{position:sticky;top:88px}
+.booking-card{background:var(--bg2);border:1px solid rgba(212,175,55,.15);border-radius:var(--radius-xl);padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.bc-price-main{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:700;color:var(--gold-light);line-height:1;margin-bottom:4px}
+.bc-price-note{font-size:13px;color:var(--white-muted);margin-bottom:20px}
+.bc-form{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.bc-field{display:flex;flex-direction:column;gap:5px}
+.bc-label{font-size:12px;font-weight:600;color:var(--white-muted);letter-spacing:.04em;text-transform:uppercase}
+.bc-input{padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:var(--radius-sm);font-size:14px;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .25s;width:100%}
+.bc-input:focus{border-color:rgba(212,175,55,.4);background:rgba(212,175,55,.04)}
+.bc-input option{background:var(--bg2);color:var(--white)}
+.bc-breakdown{background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:14px;margin-bottom:16px}
+.bc-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;color:var(--white-muted)}
+.bc-row:last-child{margin-bottom:0;padding-top:10px;border-top:1px solid var(--glass-border);font-weight:600;color:var(--white);font-size:14px}
+.bc-row .bc-val-gold{color:var(--gold-light);font-weight:600}
+.bc-token-note{font-size:12px;color:var(--white-muted);text-align:center;margin-bottom:16px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.15);border-radius:8px;padding:10px;line-height:1.5}
+.bc-token-note strong{color:var(--green)}
+.bc-features{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.bc-features li{font-size:13px;color:var(--white-muted);display:flex;align-items:center;gap:8px}
+.bc-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.bc-artist-note{display:flex;align-items:center;gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid var(--glass-border)}
+.bc-artist-note-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1A0B3B,#6D28D9);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.bc-artist-note-text{font-size:12px;color:var(--white-muted);line-height:1.5}
+.bc-artist-note-text strong{color:var(--white)}
+
+/* SOCIAL LINKS */
+.social-links{display:flex;gap:10px;flex-wrap:wrap}
+.social-link{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:var(--radius-sm);background:var(--glass);border:1px solid var(--glass-border);font-size:13px;color:var(--white-muted);text-decoration:none;transition:all .25s;cursor:pointer}
+.social-link:hover{border-color:rgba(212,175,55,.3);color:var(--gold-light)}
+
+/* SIMILAR ARTISTS */
+.similar-grid{display:flex;flex-direction:column;gap:10px}
+.sim-card{display:flex;align-items:center;gap:14px;padding:12px;border-radius:var(--radius-sm);background:var(--glass);border:1px solid var(--glass-border);cursor:pointer;transition:all .25s;text-decoration:none}
+.sim-card:hover{border-color:rgba(109,40,217,.3);transform:translateX(4px)}
+.sim-avatar{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.sa1{background:linear-gradient(135deg,#3B1A00,#92400E)}
+.sa2{background:linear-gradient(135deg,#0B1A3B,#1E3A5F)}
+.sa3{background:linear-gradient(135deg,#1A3B0B,#2D6919)}
+.sim-info{flex:1}
+.sim-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:3px}
+.sim-type{font-size:12px;color:var(--purple-light)}
+.sim-price{font-size:13px;font-weight:600;color:var(--gold-light)}
+
+/* BREADCRUMB */
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--white-muted);margin-bottom:20px;padding-top:92px}
+.breadcrumb a{color:var(--white-muted);text-decoration:none}
+.breadcrumb a:hover{color:var(--gold-light)}
+.breadcrumb-sep{color:var(--white-dim)}
+
+/* RESPONSE TIME BADGE */
+.response-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.15);font-size:12px;color:var(--green)}
+
+/* TOAST NOTIFICATION */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--bg2);border:1px solid rgba(52,211,153,.3);border-radius:var(--radius);padding:14px 20px;display:flex;align-items:center;gap:12px;z-index:9999;box-shadow:0 20px 60px rgba(0,0,0,.5);opacity:0;transform:translateY(20px);transition:all .4s;font-size:14px;color:var(--white)}
+.toast.show{opacity:1;transform:translateY(0)}
+
+@media(max-width:960px){
+  nav{padding:0 20px}
+  .container{padding:0 20px}
+  .page-wrap{grid-template-columns:1fr}
+  .booking-sidebar{position:static}
+  .gallery-grid{grid-template-columns:repeat(2,1fr)}
+  .quick-stats{flex-wrap:wrap}
+  .qs-item{min-width:50%}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="booktalent.html" class="logo">
+    <div class="logo-mark">B</div>
+    <span class="logo-text">Book<span>Talent</span></span>
+  </a>
+  <div class="nav-r">
+    <a href="#" class="btn btn-ghost">Sign In</a>
+    <a href="booking-flow.html" class="btn btn-gold">Book Now</a>
+  </div>
+</nav>
+
+<div class="container">
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="booktalent.html">Home</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="#">Singers & Vocalists</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="#">Mumbai</a>
+    <span class="breadcrumb-sep">›</span>
+    <span style="color:var(--white)">Priya Sharma</span>
+  </div>
+
+  <!-- HERO COVER -->
+  <div class="hero-cover">
+    <div class="cover-bg">🎤</div>
+    <div class="cover-overlay"></div>
+    <div class="cover-actions">
+      <button class="cover-btn cover-btn-share" onclick="shareProfile()">↗ Share</button>
+      <button class="cover-btn cover-btn-wish" id="wishBtn" onclick="toggleWish()">♡ Save</button>
+    </div>
+  </div>
+
+  <!-- ARTIST IDENTITY -->
+  <div class="artist-identity">
+    <div class="artist-avatar">🎤</div>
+    <div class="artist-id-info">
+      <div class="artist-name-xl">Priya Sharma</div>
+      <div class="artist-sub">
+        <span class="verified-pill">✓ KYC Verified</span>
+        <span class="category-pill">🎤 Bollywood Vocalist</span>
+        <span class="category-pill">🎵 Classical</span>
+        <span class="location-text">📍 Mumbai, Maharashtra</span>
+      </div>
+    </div>
+    <div style="padding-bottom:8px;display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+      <div class="response-badge">⚡ Responds in ~2 hrs</div>
+      <div style="font-size:12px;color:var(--white-muted)">🔥 24 enquiries this week</div>
+    </div>
+  </div>
+
+  <!-- QUICK STATS -->
+  <div class="quick-stats">
+    <div class="qs-item"><div class="qs-num">★ 4.9</div><div class="qs-label">Rating</div></div>
+    <div class="qs-item"><div class="qs-num">284</div><div class="qs-label">Reviews</div></div>
+    <div class="qs-item"><div class="qs-num">312</div><div class="qs-label">Events Done</div></div>
+    <div class="qs-item"><div class="qs-num">8 yrs</div><div class="qs-label">Experience</div></div>
+    <div class="qs-item"><div class="qs-num">2,140</div><div class="qs-label">Followers</div></div>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="page-wrap">
+    <div class="main-col">
+
+      <!-- TABS -->
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab(this,'about')">About</button>
+        <button class="tab-btn" onclick="switchTab(this,'media')">Media</button>
+        <button class="tab-btn" onclick="switchTab(this,'packages')">Packages</button>
+        <button class="tab-btn" onclick="switchTab(this,'reviews')">Reviews</button>
+        <button class="tab-btn" onclick="switchTab(this,'faq')">FAQ</button>
+      </div>
+
+      <!-- ABOUT TAB -->
+      <div id="tab-about">
+        <!-- BIO -->
+        <div class="section-card">
+          <div class="sc-title">About Priya</div>
+          <div class="bio-text">
+            <span class="highlight">Priya Sharma</span> is one of Mumbai's most celebrated Bollywood vocalists with over <span class="highlight">8 years of professional performance experience</span>. Known for her silky smooth voice and stage presence, she has headlined over 300 events across India, UAE and the UK.<br><br>
+            Trained under the Jaipur Gharana classical tradition, Priya seamlessly blends classical roots with modern Bollywood, Sufi and ghazal genres. She has <span class="highlight">performed at ITC Maratha, Taj Lands End, and NSCI Mumbai</span> for clients ranging from intimate private celebrations to corporate galas of 2,000+ guests.<br><br>
+            Priya brings her own <span class="highlight">professional PA system and backup vocalist</span> for all performances. She also offers customised setlists, song dedications and special medley arrangements on request.
+          </div>
+        </div>
+
+        <!-- DETAILS GRID -->
+        <div class="section-card">
+          <div class="sc-title">Artist Details</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div style="background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:14px">
+              <div style="font-size:11px;color:var(--white-muted);letter-spacing:.05em;margin-bottom:6px">LANGUAGES</div>
+              <div style="font-size:14px;color:var(--white)">Hindi • Punjabi • Marathi • English</div>
+            </div>
+            <div style="background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:14px">
+              <div style="font-size:11px;color:var(--white-muted);letter-spacing:.05em;margin-bottom:6px">GENRES</div>
+              <div style="font-size:14px;color:var(--white)">Bollywood • Sufi • Ghazal • Classical</div>
+            </div>
+            <div style="background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:14px">
+              <div style="font-size:11px;color:var(--white-muted);letter-spacing:.05em;margin-bottom:6px">EVENT TYPES</div>
+              <div style="font-size:14px;color:var(--white)">Weddings • Corporate • Concerts • Sangeet</div>
+            </div>
+            <div style="background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:14px">
+              <div style="font-size:11px;color:var(--white-muted);letter-spacing:.05em;margin-bottom:6px">TRAVEL</div>
+              <div style="font-size:14px;color:var(--white)">Pan-India + Dubai, UK (+ travel charges apply)</div>
+            </div>
+            <div style="background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:14px">
+              <div style="font-size:11px;color:var(--white-muted);letter-spacing:.05em;margin-bottom:6px">SETUP NEEDS</div>
+              <div style="font-size:14px;color:var(--white)">Own PA system • Tabla player • Harmonium</div>
+            </div>
+            <div style="background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:14px">
+              <div style="font-size:11px;color:var(--white-muted);letter-spacing:.05em;margin-bottom:6px">ADVANCE NOTICE</div>
+              <div style="font-size:14px;color:var(--white)">Min 72 hrs • Preferred 2 weeks+</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AVAILABILITY CALENDAR -->
+        <div class="section-card">
+          <div class="sc-title">Availability — December 2025</div>
+          <div class="calendar-header">
+            <button class="cal-nav" onclick="changeMonth(-1)">‹</button>
+            <div class="cal-month" id="calMonthLabel">December 2025</div>
+            <button class="cal-nav" onclick="changeMonth(1)">›</button>
+          </div>
+          <div class="cal-grid" id="calGrid">
+            <div class="cal-day-label">Sun</div><div class="cal-day-label">Mon</div><div class="cal-day-label">Tue</div>
+            <div class="cal-day-label">Wed</div><div class="cal-day-label">Thu</div><div class="cal-day-label">Fri</div><div class="cal-day-label">Sat</div>
+          </div>
+          <div class="cal-legend">
+            <div class="cleg"><div class="cleg-dot cleg-avail"></div>Available</div>
+            <div class="cleg"><div class="cleg-dot cleg-booked"></div>Booked</div>
+            <div class="cleg"><div class="cleg-dot" style="background:var(--gold);opacity:.8"></div>Selected</div>
+          </div>
+        </div>
+
+        <!-- SOCIAL LINKS -->
+        <div class="section-card">
+          <div class="sc-title">Follow Priya</div>
+          <div class="social-links">
+            <a class="social-link">▶ YouTube <span style="margin-left:4px;font-size:11px;color:var(--purple-light)">128K subs</span></a>
+            <a class="social-link">📸 Instagram <span style="margin-left:4px;font-size:11px;color:var(--purple-light)">84K followers</span></a>
+            <a class="social-link">🎵 Spotify</a>
+            <a class="social-link">🎶 Apple Music</a>
+            <a class="social-link">in LinkedIn</a>
+          </div>
+        </div>
+
+        <!-- SIMILAR ARTISTS -->
+        <div class="section-card">
+          <div class="sc-title">Similar Artists</div>
+          <div class="similar-grid">
+            <a href="#" class="sim-card">
+              <div class="sim-avatar sa1">🎤</div>
+              <div class="sim-info">
+                <div class="sim-name">Kavya Menon</div>
+                <div class="sim-type">Carnatic & Bollywood · Chennai</div>
+              </div>
+              <div class="sim-price">₹45K</div>
+            </a>
+            <a href="#" class="sim-card">
+              <div class="sim-avatar sa2">🎵</div>
+              <div class="sim-info">
+                <div class="sim-name">Aamir Qureshi</div>
+                <div class="sim-type">Sufi Vocalist · Delhi</div>
+              </div>
+              <div class="sim-price">₹60K</div>
+            </a>
+            <a href="#" class="sim-card">
+              <div class="sim-avatar sa3">🎶</div>
+              <div class="sim-info">
+                <div class="sim-name">Deepika Rao</div>
+                <div class="sim-type">Ghazal & Semi-classical · Pune</div>
+              </div>
+              <div class="sim-price">₹38K</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEDIA TAB -->
+      <div id="tab-media" style="display:none">
+        <div class="section-card">
+          <div class="sc-title">Performance Gallery</div>
+          <div class="gallery-grid">
+            <div class="gallery-item gi1">🎤<div class="play-icon">▶</div></div>
+            <div class="gallery-item gi2">🎶<div class="play-icon">▶</div></div>
+            <div class="gallery-item gi3">🎵<div class="play-icon">▶</div></div>
+            <div class="gallery-item gi4">🎤<div class="play-icon">▶</div></div>
+            <div class="gallery-item gi5">🎶<div class="play-icon">▶</div></div>
+            <div class="gallery-item gi6">🎵<div class="play-icon">▶</div></div>
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="sc-title">Featured Videos</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="background:linear-gradient(135deg,#1A0B3B,#2D1B69);border-radius:var(--radius-sm);height:200px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid var(--glass-border);font-size:40px;position:relative">
+              🎬
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+                <div style="width:56px;height:56px;border-radius:50%;background:rgba(212,175,55,.2);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px">▶</div>
+              </div>
+              <div style="position:absolute;bottom:12px;left:12px;font-size:12px;color:var(--white);background:rgba(9,9,18,.7);padding:4px 10px;border-radius:6px">Wedding Medley — Taj Mumbai 2024</div>
+            </div>
+            <div style="background:linear-gradient(135deg,#3B1A00,#92400E);border-radius:var(--radius-sm);height:200px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid var(--glass-border);font-size:40px;position:relative">
+              🎶
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+                <div style="width:56px;height:56px;border-radius:50%;background:rgba(212,175,55,.2);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px">▶</div>
+              </div>
+              <div style="position:absolute;bottom:12px;left:12px;font-size:12px;color:var(--white);background:rgba(9,9,18,.7);padding:4px 10px;border-radius:6px">Sufi Night — Corporate Gala 2024</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PACKAGES TAB -->
+      <div id="tab-packages" style="display:none">
+        <div class="section-card">
+          <div class="sc-title">Pricing Packages</div>
+          <div class="packages-grid">
+            <div class="pkg-card">
+              <div class="pkg-header">
+                <div class="pkg-name">🎤 Acoustic Solo</div>
+                <div class="pkg-price">₹35,000 <span>/ event</span></div>
+              </div>
+              <ul class="pkg-features">
+                <li>2 hours of performance</li>
+                <li>Up to 20 songs from curated setlist</li>
+                <li>Own harmonium & basic audio setup</li>
+                <li>Suitable for intimate gatherings (50–200 guests)</li>
+                <li>1 complimentary song dedication</li>
+              </ul>
+            </div>
+            <div class="pkg-card popular">
+              <div class="pkg-popular-tag">★ MOST POPULAR</div>
+              <div class="pkg-header" style="margin-top:12px">
+                <div class="pkg-name">🎵 Premium Bollywood</div>
+                <div class="pkg-price">₹55,000 <span>/ event</span></div>
+              </div>
+              <ul class="pkg-features">
+                <li>3 hours of live performance</li>
+                <li>35+ song setlist (Bollywood, Sufi, Ghazal)</li>
+                <li>Professional PA system + backup vocalist</li>
+                <li>Tabla player included</li>
+                <li>Suitable for 200–800 guests</li>
+                <li>3 custom song dedications</li>
+                <li>Pre-event consultation call</li>
+              </ul>
+            </div>
+            <div class="pkg-card">
+              <div class="pkg-header">
+                <div class="pkg-name">👑 Royal Concert</div>
+                <div class="pkg-price">₹1,20,000 <span>/ event</span></div>
+              </div>
+              <ul class="pkg-features">
+                <li>Full 5-hour concert experience</li>
+                <li>Live band (keyboard, tabla, guitar, bass)</li>
+                <li>Full professional stage lighting rig</li>
+                <li>LED backdrop & custom projections</li>
+                <li>Unlimited custom setlist requests</li>
+                <li>Post-show meet & greet</li>
+                <li>High-res performance photos delivered</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVIEWS TAB -->
+      <div id="tab-reviews" style="display:none">
+        <div class="section-card">
+          <div class="review-summary">
+            <div>
+              <div class="rs-big">4.9</div>
+              <div class="rs-stars">★★★★★</div>
+              <div class="rs-count">284 verified reviews</div>
+            </div>
+            <div class="rating-bars">
+              <div class="rb-row"><div class="rb-label">5★</div><div class="rb-bar"><div class="rb-fill" style="width:88%"></div></div><div class="rb-count">249</div></div>
+              <div class="rb-row"><div class="rb-label">4★</div><div class="rb-bar"><div class="rb-fill" style="width:9%"></div></div><div class="rb-count">26</div></div>
+              <div class="rb-row"><div class="rb-label">3★</div><div class="rb-bar"><div class="rb-fill" style="width:2%"></div></div><div class="rb-count">6</div></div>
+              <div class="rb-row"><div class="rb-label">2★</div><div class="rb-bar"><div class="rb-fill" style="width:1%"></div></div><div class="rb-count">2</div></div>
+              <div class="rb-row"><div class="rb-label">1★</div><div class="rb-bar"><div class="rb-fill" style="width:0%"></div></div><div class="rb-count">1</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="reviewer-avatar">RK</div>
+                  <div><div class="reviewer-name">Rajesh Khanna</div><div class="reviewer-date">November 2025 · Wedding</div></div>
+                </div>
+                <div class="review-stars">★★★★★</div>
+              </div>
+              <div class="review-text">Priya was absolutely phenomenal at my daughter's wedding. She took the time to learn Neha's favourite songs and the entire mandap sequence was goosebumps-inducing. 300 guests were in awe. Professional, punctual and magical!</div>
+            </div>
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="reviewer-avatar">AP</div>
+                  <div><div class="reviewer-name">Ananya Patel, TechCorp</div><div class="reviewer-date">October 2025 · Corporate Gala</div></div>
+                </div>
+                <div class="review-stars">★★★★★</div>
+              </div>
+              <div class="review-text">Booked Priya for our annual gala (700 attendees). She was an absolute rockstar — adapted her set on the fly when our schedule shifted, managed the crowd beautifully and had everyone on their feet. Rebooking for 2026!</div>
+            </div>
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer">
+                  <div class="reviewer-avatar">SM</div>
+                  <div><div class="reviewer-name">Suresh Mehta</div><div class="reviewer-date">September 2025 · Sangeet Night</div></div>
+                </div>
+                <div class="review-stars">★★★★★</div>
+              </div>
+              <div class="review-text">Hired for sangeet night and she was just perfect. The whole process through BookTalent was seamless — booking, payment, coordination. Priya's team arrived 2 hours early, everything was setup perfectly. 10/10.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ TAB -->
+      <div id="tab-faq" style="display:none">
+        <div class="section-card">
+          <div class="sc-title">Artist FAQs</div>
+          <div style="display:flex;flex-direction:column;gap:0">
+            <div style="padding:18px 0;border-bottom:1px solid var(--glass-border)">
+              <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:8px">Do you bring your own sound system?</div>
+              <div style="font-size:14px;color:var(--white-muted);line-height:1.7">Yes! For the Premium and Royal packages I bring a full professional PA system (2000W, QSC powered speakers). For the Acoustic Solo package I carry a portable Bose system suitable for rooms up to 150 people.</div>
+            </div>
+            <div style="padding:18px 0;border-bottom:1px solid var(--glass-border)">
+              <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:8px">Can I request specific songs?</div>
+              <div style="font-size:14px;color:var(--white-muted);line-height:1.7">Absolutely. All packages include custom song dedications. For the Royal Concert package, we build the entire setlist together. Please share your song wishlist at least 1 week before the event.</div>
+            </div>
+            <div style="padding:18px 0;border-bottom:1px solid var(--glass-border)">
+              <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:8px">Do you travel outside Mumbai?</div>
+              <div style="font-size:14px;color:var(--white-muted);line-height:1.7">Yes, I perform pan-India and have also done international shows in Dubai, Singapore and the UK. Travel and accommodation charges apply for out-of-city bookings.</div>
+            </div>
+            <div style="padding:18px 0">
+              <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:8px">What is the cancellation policy?</div>
+              <div style="font-size:14px;color:var(--white-muted);line-height:1.7">Cancellations made 15+ days before the event receive a full refund. 7–14 days: 50% refund. Less than 7 days: the 5% token is non-refundable. In case I cancel, you receive a 100% refund + priority rebooking.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main-col -->
+
+    <!-- SIDEBAR -->
+    <div class="booking-sidebar">
+      <div class="booking-card">
+        <div class="bc-price-main">₹55,000</div>
+        <div class="bc-price-note">Starting price · Premium Bollywood Package</div>
+
+        <div class="bc-form">
+          <div class="bc-field">
+            <div class="bc-label">Event Date</div>
+            <input type="date" class="bc-input" id="eventDate">
+          </div>
+          <div class="bc-field">
+            <div class="bc-label">Event Type</div>
+            <select class="bc-input">
+              <option>Wedding / Sangeet</option>
+              <option>Corporate Event</option>
+              <option>Birthday Celebration</option>
+              <option>Private Concert</option>
+              <option>College / Fest</option>
+            </select>
+          </div>
+          <div class="bc-field">
+            <div class="bc-label">City / Venue</div>
+            <input type="text" class="bc-input" placeholder="e.g. Taj Lands End, Mumbai">
+          </div>
+          <div class="bc-field">
+            <div class="bc-label">Package</div>
+            <select class="bc-input" onchange="updatePrice(this)">
+              <option value="35000">🎤 Acoustic Solo — ₹35,000</option>
+              <option value="55000" selected>🎵 Premium Bollywood — ₹55,000</option>
+              <option value="120000">👑 Royal Concert — ₹1,20,000</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="bc-breakdown">
+          <div class="bc-row"><span>Package fee</span><span id="pkgFee">₹55,000</span></div>
+          <div class="bc-row"><span>Platform fee (5%)</span><span>₹2,750</span></div>
+          <div class="bc-row"><span>GST (18%)</span><span>₹10,395</span></div>
+          <div class="bc-row"><span style="font-weight:700">Total</span><span class="bc-val-gold" id="totalFee">₹68,145</span></div>
+        </div>
+
+        <div class="bc-token-note">
+          Pay only <strong>₹2,750</strong> now to confirm booking.<br>
+          Remaining amount due before your event.
+        </div>
+
+        <a href="booking-flow.html" class="btn btn-gold" style="width:100%;justify-content:center;font-size:15px;padding:14px">
+          🔐 Confirm Booking — Pay ₹2,750
+        </a>
+        <div style="margin-top:10px">
+          <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center;font-size:13px;margin-top:4px" onclick="sendMsg()">💬 Send Message First</a>
+        </div>
+
+        <ul class="bc-features">
+          <li>Free cancellation within 24 hrs</li>
+          <li>Auto-generated legal contract</li>
+          <li>Escrow-protected payment</li>
+          <li>GST invoice included</li>
+        </ul>
+
+        <div class="bc-artist-note">
+          <div class="bc-artist-note-avatar">🎤</div>
+          <div class="bc-artist-note-text"><strong>Priya is in high demand.</strong><br>3 bookings confirmed this month. Check availability before it fills up.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Action successful</div>
+
+<script>
+// Tab switching
+function switchTab(btn, id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ['about','media','packages','reviews','faq'].forEach(t => {
+    const el = document.getElementById('tab-'+t);
+    if(el) el.style.display = t===id ? 'block' : 'none';
+  });
+}
+
+// Wishlist toggle
+let wished = false;
+function toggleWish() {
+  wished = !wished;
+  const btn = document.getElementById('wishBtn');
+  btn.textContent = wished ? '♥ Saved' : '♡ Save';
+  btn.style.background = wished ? 'rgba(212,175,55,.3)' : '';
+  showToast(wished ? '♥ Added to your wishlist' : 'Removed from wishlist');
+}
+
+// Share
+function shareProfile() {
+  showToast('↗ Profile link copied to clipboard!');
+}
+
+// Price update
+function updatePrice(sel) {
+  const prices = {35000:'₹35,000',55000:'₹55,000',120000:'₹1,20,000'};
+  const totals = {35000:'₹43,750',55000:'₹68,145',120000:'₹1,49,600'};
+  document.getElementById('pkgFee').textContent = prices[sel.value];
+  document.getElementById('totalFee').textContent = totals[sel.value];
+}
+
+// Message
+function sendMsg() { showToast('💬 Message sent to Priya!'); }
+
+// Toast
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// Calendar
+const bookedDays = [3,7,14,15,21,26,28];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+let currentMonth = 11; let currentYear = 2025; let selectedDay = null;
+
+function renderCalendar() {
+  document.getElementById('calMonthLabel').textContent = months[currentMonth]+' '+currentYear;
+  const grid = document.getElementById('calGrid');
+  const dayLabels = grid.querySelectorAll('.cal-day-label');
+  grid.innerHTML = '';
+  dayLabels.forEach(l => grid.appendChild(l.cloneNode(true)));
+
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+  const daysInMonth = new Date(currentYear, currentMonth+1, 0).getDate();
+  const today = new Date(); const todayNum = today.getDate();
+
+  for(let i=0; i<firstDay; i++) {
+    const d = document.createElement('div');
+    d.className = 'cal-day empty';
+    grid.appendChild(d);
+  }
+  for(let d=1; d<=daysInMonth; d++) {
+    const div = document.createElement('div');
+    div.textContent = d;
+    if(d === todayNum && currentMonth === today.getMonth() && currentYear === today.getFullYear()) div.className = 'cal-day today';
+    else if(bookedDays.includes(d)) div.className = 'cal-day booked';
+    else if(d === selectedDay) div.className = 'cal-day selected';
+    else div.className = 'cal-day available';
+    div.onclick = () => {
+      if(!bookedDays.includes(d)) {
+        selectedDay = d;
+        renderCalendar();
+        const dateStr = currentYear+'-'+(currentMonth+1).toString().padStart(2,'0')+'-'+d.toString().padStart(2,'0');
+        document.getElementById('eventDate').value = dateStr;
+        showToast('📅 '+d+' '+months[currentMonth]+' selected');
+      }
+    };
+    grid.appendChild(div);
+  }
+}
+
+function changeMonth(dir) {
+  currentMonth += dir;
+  if(currentMonth > 11) { currentMonth=0; currentYear++; }
+  if(currentMonth < 0) { currentMonth=11; currentYear--; }
+  renderCalendar();
+}
+
+renderCalendar();
+</script>
+</body>
+</html>

@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookTalent — India's Finest Talent, On Demand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #06060F;
+    --bg: #090912;
+    --bg2: #0E0E1C;
+    --bg3: #13132A;
+    --purple-deep: #1A0B3B;
+    --purple: #6D28D9;
+    --purple-mid: #8B5CF6;
+    --purple-light: #A78BFA;
+    --gold: #D4AF37;
+    --gold-light: #F5C842;
+    --gold-dim: #8C7523;
+    --white: #F8F5FF;
+    --white-muted: rgba(248,245,255,0.65);
+    --white-dim: rgba(248,245,255,0.25);
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+    --glow-purple: 0 0 80px rgba(109,40,217,0.35);
+    --glow-gold: 0 0 60px rgba(212,175,55,0.25);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-xl: 28px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* ── AMBIENT ORBS ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.18;
+    animation: orbFloat 12s ease-in-out infinite;
+  }
+  .orb-1 { width: 600px; height: 600px; background: var(--purple); top: -200px; left: -150px; animation-delay: 0s; }
+  .orb-2 { width: 500px; height: 500px; background: var(--gold); top: 10%; right: -200px; opacity: 0.10; animation-delay: -4s; }
+  .orb-3 { width: 700px; height: 700px; background: #4C1D95; bottom: -300px; left: 20%; animation-delay: -8s; opacity: 0.15; }
+
+  @keyframes orbFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-40px) scale(1.05); }
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 0 48px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(9,9,18,0.55);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--gold), var(--purple-mid));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--black);
+    flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(212,175,55,0.4);
+  }
+
+  .logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+
+  .logo-text span { color: var(--gold-light); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--white-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    transition: color 0.25s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+    border: none;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--white-muted);
+    border: 1px solid var(--glass-border);
+  }
+  .btn-ghost:hover { border-color: var(--white-dim); color: var(--white); }
+
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), #B8960C);
+    color: #1A0B00;
+    font-weight: 600;
+    box-shadow: 0 4px 24px rgba(212,175,55,0.35);
+  }
+  .btn-gold:hover { box-shadow: 0 6px 36px rgba(212,175,55,0.55); transform: translateY(-1px); }
+
+  .btn-purple {
+    background: linear-gradient(135deg, var(--purple), #4C1D95);
+    color: var(--white);
+    font-weight: 600;
+    box-shadow: 0 4px 24px rgba(109,40,217,0.4);
+  }
+  .btn-purple:hover { box-shadow: 0 6px 36px rgba(109,40,217,0.6); transform: translateY(-1px); }
+
+  .btn-outline-gold {
+    background: transparent;
+    color: var(--gold-light);
+    border: 1px solid var(--gold-dim);
+  }
+  .btn-outline-gold:hover { background: rgba(212,175,55,0.08); border-color: var(--gold); }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 140px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(109,40,217,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(109,40,217,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 75%);
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 100px;
+    background: rgba(212,175,55,0.1);
+    border: 1px solid rgba(212,175,55,0.2);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .hero-tag-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: clamp(52px, 6vw, 82px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+
+  .hero-title .gold { color: var(--gold-light); }
+  .hero-title .italic { font-style: italic; color: var(--purple-light); }
+
+  .hero-subtitle {
+    font-size: 17px;
+    color: var(--white-muted);
+    max-width: 500px;
+    line-height: 1.75;
+    margin-bottom: 40px;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 52px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+  }
+
+  .hero-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  .hero-stat-label {
+    font-size: 12px;
+    color: var(--white-muted);
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── ARTIST CARDS GRID (hero right) ── */
+  .hero-visual {
+    position: relative;
+    height: 580px;
+  }
+
+  .floating-card {
+    position: absolute;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+
+  .fc-main {
+    width: 220px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: fcFloat1 7s ease-in-out infinite;
+  }
+
+  .fc-secondary {
+    width: 180px;
+    bottom: 60px;
+    left: 0;
+    animation: fcFloat2 9s ease-in-out infinite;
+  }
+
+  .fc-tertiary {
+    width: 190px;
+    top: 100px;
+    right: 0;
+    animation: fcFloat3 8s ease-in-out infinite;
+  }
+
+  @keyframes fcFloat1 { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-18px)} }
+  @keyframes fcFloat2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+  @keyframes fcFloat3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+
+  .fc-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .fc-img-placeholder {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    background: linear-gradient(135deg, var(--purple-deep), var(--bg3));
+  }
+
+  .fc-body { padding: 14px; }
+
+  .fc-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .fc-type {
+    font-size: 12px;
+    color: var(--purple-light);
+    margin-bottom: 10px;
+  }
+
+  .fc-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .fc-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--gold-light);
+    font-weight: 600;
+  }
+
+  .fc-price {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    background: rgba(212,175,55,0.15);
+    padding: 3px 10px;
+    border-radius: 100px;
+    border: 1px solid rgba(212,175,55,0.25);
+  }
+
+  .verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: #34D399;
+    background: rgba(52,211,153,0.1);
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(52,211,153,0.2);
+  }
+
+  /* booking mini card */
+  .mini-booking {
+    position: absolute;
+    bottom: 30px;
+    right: -10px;
+    background: var(--bg2);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    backdrop-filter: blur(20px);
+    animation: fcFloat3 6s ease-in-out infinite;
+    z-index: 5;
+  }
+
+  .mini-booking-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--gold), var(--purple-mid));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .mini-booking-text p:first-child {
+    font-size: 12px;
+    color: var(--white-muted);
+  }
+  .mini-booking-text p:last-child {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold-light);
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-section {
+    padding: 24px 0;
+    background: linear-gradient(135deg, rgba(109,40,217,0.06), rgba(212,175,55,0.04));
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 48px;
+    animation: marquee 30s linear infinite;
+    width: max-content;
+  }
+
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--white-muted);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .marquee-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── SECTION HEADINGS ── */
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    border-radius: 100px;
+    background: rgba(109,40,217,0.12);
+    border: 1px solid rgba(109,40,217,0.25);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--purple-light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: clamp(36px, 4vw, 56px);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: var(--white);
+  }
+
+  .section-title .accent { color: var(--gold-light); }
+  .section-title .italic { font-style: italic; color: var(--purple-light); }
+
+  .section-sub {
+    font-size: 16px;
+    color: var(--white-muted);
+    max-width: 520px;
+    line-height: 1.75;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 52px;
+  }
+
+  /* ── CATEGORIES ── */
+  #categories { padding: 100px 0; }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .cat-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  .cat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--purple), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .cat-card:hover::before { opacity: 0.08; }
+  .cat-card:hover { border-color: rgba(109,40,217,0.4); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(109,40,217,0.15); }
+
+  .cat-icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .cat-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .cat-count {
+    font-size: 13px;
+    color: var(--purple-light);
+  }
+
+  .cat-arrow {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    font-size: 18px;
+    color: var(--white-dim);
+    transition: all 0.3s;
+  }
+
+  .cat-card:hover .cat-arrow { color: var(--gold-light); transform: translate(2px, -2px); }
+
+  /* ── FEATURED ARTISTS ── */
+  #artists { padding: 100px 0; background: linear-gradient(180deg, transparent, rgba(109,40,217,0.04), transparent); }
+
+  .artist-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .artist-card {
+    background: var(--bg2);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.35s;
+    position: relative;
+  }
+
+  .artist-card:hover { transform: translateY(-8px); box-shadow: 0 30px 80px rgba(109,40,217,0.2), 0 0 0 1px rgba(109,40,217,0.3); }
+
+  .artist-img-wrap {
+    position: relative;
+    height: 260px;
+    overflow: hidden;
+  }
+
+  .artist-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+  }
+
+  .ap1 { background: linear-gradient(135deg, #1A0B3B, #2D1B69, #6D28D9); }
+  .ap2 { background: linear-gradient(135deg, #3B1A00, #6B3A00, #D97706); }
+  .ap3 { background: linear-gradient(135deg, #0B1A3B, #1D3461, #3B82F6); }
+  .ap4 { background: linear-gradient(135deg, #1A3B0B, #2D6919, #16A34A); }
+  .ap5 { background: linear-gradient(135deg, #3B0B1A, #69192D, #E11D48); }
+  .ap6 { background: linear-gradient(135deg, #1B0B3B, #3B1A69, #7C3AED); }
+
+  .artist-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(9,9,18,0.95) 0%, rgba(9,9,18,0.3) 60%, transparent 100%);
+  }
+
+  .artist-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(9,9,18,0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gold-light);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .badge-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+
+  .artist-img-info {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+  }
+
+  .artist-name-big {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .artist-type-tag {
+    font-size: 12px;
+    color: var(--purple-light);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .artist-body {
+    padding: 20px 24px;
+  }
+
+  .artist-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .artist-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .stars {
+    color: var(--gold);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  .artist-rating-val {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .artist-reviews {
+    font-size: 12px;
+    color: var(--white-muted);
+  }
+
+  .artist-city {
+    font-size: 13px;
+    color: var(--white-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .artist-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+
+  .atag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: rgba(109,40,217,0.12);
+    border: 1px solid rgba(109,40,217,0.2);
+    color: var(--purple-light);
+  }
+
+  .artist-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--glass-border);
+  }
+
+  .artist-price-label {
+    font-size: 11px;
+    color: var(--white-muted);
+    margin-bottom: 2px;
+  }
+
+  .artist-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold-light);
+  }
+
+  .artist-price span {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--white-muted);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── HOW IT WORKS ── */
+  #howitworks {
+    padding: 100px 0;
+    position: relative;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+  }
+
+  .step-card {
+    position: relative;
+  }
+
+  .step-connector {
+    position: absolute;
+    top: 40px;
+    left: calc(100% - 12px);
+    width: calc(100% - 12px + 24px);
+    height: 1px;
+    background: linear-gradient(90deg, var(--glass-border), transparent);
+    z-index: 0;
+  }
+
+  .step-num-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 24px;
+  }
+
+  .step-num {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(109,40,217,0.2), rgba(109,40,217,0.05));
+    border: 1px solid rgba(109,40,217,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gold-light);
+    flex-shrink: 0;
+  }
+
+  .step-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    color: var(--white-muted);
+    line-height: 1.65;
+  }
+
+  .step-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  /* ── PRICING FEATURE ── */
+  #token {
+    padding: 80px 0;
+  }
+
+  .token-card {
+    background: linear-gradient(135deg, rgba(212,175,55,0.06), rgba(109,40,217,0.06));
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 32px;
+    padding: 72px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .token-card::before {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: var(--gold);
+    filter: blur(150px);
+    opacity: 0.05;
+    right: -100px;
+    top: -100px;
+    pointer-events: none;
+  }
+
+  .token-highlight {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(80px, 12vw, 140px);
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 8px;
+    opacity: 0.9;
+  }
+
+  .token-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .token-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .token-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--white-muted);
+  }
+
+  .tcheck {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(52,211,153,0.15);
+    border: 1px solid rgba(52,211,153,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #34D399;
+    flex-shrink: 0;
+  }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { padding: 100px 0; }
+
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .testi-card {
+    background: var(--bg2);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 32px;
+    transition: all 0.3s;
+  }
+
+  .testi-card:hover { border-color: rgba(212,175,55,0.2); transform: translateY(-4px); }
+
+  .testi-stars {
+    color: var(--gold);
+    font-size: 14px;
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+  }
+
+  .testi-quote {
+    font-size: 15px;
+    color: var(--white-muted);
+    line-height: 1.75;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  .testi-person {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .testi-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 2px solid var(--glass-border);
+    font-weight: 700;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold-light);
+    flex-shrink: 0;
+  }
+
+  .tav1 { background: linear-gradient(135deg, #1A0B3B, #4C1D95); }
+  .tav2 { background: linear-gradient(135deg, #3B1A00, #92400E); }
+  .tav3 { background: linear-gradient(135deg, #0B1A3B, #1E3A5F); }
+
+  .testi-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .testi-role {
+    font-size: 12px;
+    color: var(--white-muted);
+    margin-top: 2px;
+  }
+
+  /* ── CITIES ── */
+  #cities { padding: 80px 0; }
+
+  .cities-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+  }
+
+  .city-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .city-card:hover { border-color: rgba(212,175,55,0.25); background: rgba(212,175,55,0.04); transform: translateY(-3px); }
+
+  .city-icon { font-size: 28px; margin-bottom: 10px; }
+  .city-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .city-count { font-size: 12px; color: var(--purple-light); }
+
+  /* ── CTA SECTION ── */
+  #cta-corporate {
+    padding: 80px 0;
+  }
+
+  .dual-cta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .cta-box {
+    border-radius: 28px;
+    padding: 56px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-artist {
+    background: linear-gradient(135deg, #1A0B3B, #2D1B69);
+    border: 1px solid rgba(109,40,217,0.3);
+  }
+
+  .cta-corporate {
+    background: linear-gradient(135deg, #1A1000, #3B2700);
+    border: 1px solid rgba(212,175,55,0.2);
+  }
+
+  .cta-box-glow {
+    position: absolute;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.15;
+    top: -100px;
+    right: -100px;
+    pointer-events: none;
+  }
+
+  .cta-glow-purple { background: var(--purple); }
+  .cta-glow-gold { background: var(--gold); }
+
+  .cta-box-icon {
+    font-size: 44px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .cta-box-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .cta-box-desc {
+    font-size: 15px;
+    color: var(--white-muted);
+    max-width: 360px;
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  /* ── SEARCH BAR ── */
+  .hero-search {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    padding: 6px 6px 6px 24px;
+    max-width: 480px;
+    margin-top: 16px;
+    transition: border-color 0.3s;
+  }
+
+  .hero-search:focus-within {
+    border-color: rgba(109,40,217,0.5);
+    box-shadow: 0 0 0 4px rgba(109,40,217,0.08);
+  }
+
+  .hero-search input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .hero-search input::placeholder { color: var(--white-muted); }
+
+  /* ── APP DOWNLOAD ── */
+  #app-download {
+    padding: 80px 0;
+    background: linear-gradient(180deg, transparent, rgba(109,40,217,0.04), transparent);
+  }
+
+  .app-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .app-mockup {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .phone-frame {
+    width: 160px;
+    height: 320px;
+    background: var(--bg2);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+  }
+
+  .phone-frame:first-child { margin-top: 40px; }
+
+  .phone-top {
+    height: 28px;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phone-notch {
+    width: 60px; height: 16px;
+    background: var(--bg);
+    border-radius: 0 0 12px 12px;
+  }
+
+  .phone-content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .phone-row {
+    height: 48px;
+    border-radius: 10px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+  }
+
+  .phone-row-gold {
+    background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
+    border-color: rgba(212,175,55,0.2);
+  }
+
+  /* ── FAQ ── */
+  #faq { padding: 80px 0; }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .faq-q {
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--white);
+    gap: 16px;
+    user-select: none;
+  }
+
+  .faq-q:hover { color: var(--gold-light); }
+
+  .faq-icon {
+    font-size: 20px;
+    color: var(--purple-light);
+    flex-shrink: 0;
+    transition: transform 0.3s;
+  }
+
+  .faq-item.open .faq-icon { transform: rotate(45deg); color: var(--gold-light); }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    padding: 0 28px;
+    font-size: 14px;
+    color: var(--white-muted);
+    line-height: 1.75;
+  }
+
+  .faq-item.open .faq-a {
+    max-height: 200px;
+    padding: 0 28px 22px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--glass-border);
+    padding: 72px 0 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 56px;
+  }
+
+  .footer-brand-desc {
+    font-size: 14px;
+    color: var(--white-muted);
+    line-height: 1.75;
+    margin: 16px 0 24px;
+    max-width: 280px;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 12px;
+  }
+
+  .social-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+    color: var(--white-muted);
+  }
+  .social-btn:hover { border-color: rgba(212,175,55,0.3); color: var(--gold-light); }
+
+  .footer-col-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    font-size: 14px;
+    color: var(--white-muted);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  .footer-links a:hover { color: var(--gold-light); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--glass-border);
+    padding-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--white-muted);
+  }
+
+  .footer-bottom-links {
+    display: flex;
+    gap: 24px;
+  }
+  .footer-bottom-links a {
+    color: var(--white-muted);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  .footer-bottom-links a:hover { color: var(--white); }
+
+  /* ── GLOW DIVIDER ── */
+  .glow-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--purple), var(--gold), var(--purple), transparent);
+    opacity: 0.3;
+    margin: 0;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stagger-1 { transition-delay: 0.05s; }
+  .stagger-2 { transition-delay: 0.15s; }
+  .stagger-3 { transition-delay: 0.25s; }
+  .stagger-4 { transition-delay: 0.35s; }
+  .stagger-5 { transition-delay: 0.45s; }
+  .stagger-6 { transition-delay: 0.55s; }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    padding: 64px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stats-inner {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--glass-border);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .stat-item {
+    background: var(--bg2);
+    padding: 40px 32px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--white-muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── MOBILE RESPONSIVE ── */
+  @media (max-width: 960px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .container { padding: 0 24px; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .artist-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps-grid { grid-template-columns: repeat(2, 1fr); }
+    .testi-grid { grid-template-columns: 1fr; }
+    .cities-grid { grid-template-columns: repeat(3, 1fr); }
+    .dual-cta { grid-template-columns: 1fr; }
+    .token-card { grid-template-columns: 1fr; padding: 40px; gap: 40px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    .app-inner { grid-template-columns: 1fr; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+
+  @media (max-width: 600px) {
+    .hero-title { font-size: 44px; }
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .artist-grid { grid-template-columns: 1fr; }
+    .cities-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ambient Orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- ── NAVBAR ── -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">B</div>
+    <span class="logo-text">Book<span>Talent</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#artists">Discover Artists</a></li>
+    <li><a href="#categories">Categories</a></li>
+    <li><a href="#howitworks">How It Works</a></li>
+    <li><a href="#cities">Cities</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#" class="btn btn-ghost">Sign In</a>
+    <a href="search-artists.html" class="btn btn-gold">Book an Artist</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-tag fade-up visible">
+          <span class="hero-tag-dot"></span>
+          India's #1 Premium Talent Marketplace
+        </div>
+        <h1 class="hero-title fade-up visible stagger-1">
+          India's<br>
+          <span class="gold">Finest</span> Talent,<br>
+          <span class="italic">On Demand</span>
+        </h1>
+        <p class="hero-subtitle fade-up visible stagger-2">
+          Discover, compare and instantly book singers, DJs, comedians, anchors and 5000+ verified artists for weddings, corporate events, concerts and private shows.
+        </p>
+        <div class="hero-actions fade-up visible stagger-3">
+          <a href="#artists" class="btn btn-gold" style="font-size:15px; padding:13px 28px;">✦ Browse Artists</a>
+          <a href="#" class="btn btn-outline-gold" style="font-size:15px; padding:13px 28px;">List as Artist</a>
+        </div>
+        <div class="hero-search fade-up visible stagger-4">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(248,245,255,0.45)" stroke-width="2" style="flex-shrink:0;margin-right:4px"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="&ldquo;Punjabi singer for wedding in Mumbai under ₹80k&rdquo;">
+          <button class="btn btn-purple" style="padding:8px 20px; font-size:13px;">Search</button>
+        </div>
+        <div class="hero-stats fade-up visible stagger-5">
+          <div>
+            <div class="hero-stat-num">5,200+</div>
+            <div class="hero-stat-label">Verified Artists</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">48K+</div>
+            <div class="hero-stat-label">Events Booked</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">32</div>
+            <div class="hero-stat-label">Cities Covered</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Visual -->
+      <div class="hero-visual fade-up visible stagger-2">
+        <!-- Main card -->
+        <div class="floating-card fc-main">
+          <div class="fc-img-placeholder ap1">🎤</div>
+          <div class="fc-body">
+            <div class="verified-badge">✓ Verified Artist</div>
+            <div class="fc-name">Priya Sharma</div>
+            <div class="fc-type">Bollywood Vocalist</div>
+            <div class="fc-meta">
+              <div class="fc-rating">★★★★★ <span style="color:var(--white-muted);font-weight:400;margin-left:2px">(284)</span></div>
+              <div class="fc-price">₹55K/event</div>
+            </div>
+          </div>
+        </div>
+        <!-- Secondary card -->
+        <div class="floating-card fc-secondary">
+          <div class="fc-img-placeholder ap2">🎧</div>
+          <div class="fc-body">
+            <div class="fc-name">DJ Vortex</div>
+            <div class="fc-type">Electronic / EDM</div>
+            <div class="fc-meta">
+              <div class="fc-rating">★★★★★ <span style="color:var(--white-muted);font-weight:400">(156)</span></div>
+              <div class="fc-price">₹40K</div>
+            </div>
+          </div>
+        </div>
+        <!-- Tertiary card -->
+        <div class="floating-card fc-tertiary">
+          <div class="fc-img-placeholder ap5">🎭</div>
+          <div class="fc-body">
+            <div class="fc-name">Rohit Gupta</div>
+            <div class="fc-type">Stand-up Comedian</div>
+            <div class="fc-meta">
+              <div class="fc-rating">★★★★☆ <span style="color:var(--white-muted);font-weight:400">(98)</span></div>
+              <div class="fc-price">₹30K</div>
+            </div>
+          </div>
+        </div>
+        <!-- Booking mini card -->
+        <div class="mini-booking">
+          <div class="mini-booking-icon">📅</div>
+          <div class="mini-booking-text">
+            <p>New booking confirmed</p>
+            <p>Taj Mumbai · Dec 21, 2025</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="marquee-dot"></span> Weddings &amp; Receptions</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Corporate Events</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Birthday Parties</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> College Fests</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Brand Activations</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Private Concerts</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Club Nights</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Hotel Shows</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Virtual Events</div>
+    <!-- duplicate for seamless loop -->
+    <div class="marquee-item"><span class="marquee-dot"></span> Weddings &amp; Receptions</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Corporate Events</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Birthday Parties</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> College Fests</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Brand Activations</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Private Concerts</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Club Nights</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Hotel Shows</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Virtual Events</div>
+  </div>
+</div>
+
+<!-- ── CATEGORIES ── -->
+<section id="categories">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-tag fade-up">Browse by Category</div>
+        <h2 class="section-title fade-up">Every kind of<br><span class="accent">talent</span> you need</h2>
+      </div>
+      <a href="#" class="btn btn-ghost fade-up" style="flex-shrink:0">View All →</a>
+    </div>
+    <div class="cat-grid">
+      <a href="#" class="cat-card fade-up stagger-1">
+        <span class="cat-icon">🎤</span>
+        <div class="cat-name">Singers &amp; Vocalists</div>
+        <div class="cat-count">840+ Artists</div>
+        <span class="cat-arrow">↗</span>
+      </a>
+      <a href="#" class="cat-card fade-up stagger-2">
+        <span class="cat-icon">🎧</span>
+        <div class="cat-name">DJs &amp; Music Producers</div>
+        <div class="cat-count">620+ Artists</div>
+        <span class="cat-arrow">↗</span>
+      </a>
+      <a href="#" class="cat-card fade-up stagger-3">
+        <span class="cat-icon">🎭</span>
+        <div class="cat-name">Stand-up Comedians</div>
+        <div class="cat-count">310+ Artists</div>
+        <span class="cat-arrow">↗</span>
+      </a>
+      <a href="#" class="cat-card fade-up stagger-4">
+        <span class="cat-icon">🎙️</span>
+        <div class="cat-name">Anchors &amp; Emcees</div>
+        <div class="cat-count">490+ Artists</div>
+        <span class="cat-arrow">↗</span>
+      </a>
+      <a href="#" class="cat-card fade-up stagger-1">
+        <span class="cat-icon">💃</span>
+        <div class="cat-name">Dancers &amp; Troupes</div>
+        <div class="cat-count">380+ Artists</div>
+        <span class="cat-arrow">↗</span>
+      </a>
+      <a href="#" class="cat-card fade-up stagger-2">
+        <span class="cat-icon">🪄</span>
+        <div class="cat-name">Magicians &amp; Illusionists</div>
+        <div class="cat-count">120+ Artists</div>
+        <span class="cat-arrow">↗</span>
+      </a>
+      <a href="#" class="cat-card fade-up stagger-3">
+        <span class="cat-icon">🎻</span>
+        <div class="cat-name">Live Bands &amp; Orchestras</div>
+        <div class="cat-count">240+ Artists</div>
+        <span class="cat-arrow">↗</span>
+      </a>
+      <a href="#" class="cat-card fade-up stagger-4">
+        <span class="cat-icon">🌟</span>
+        <div class="cat-name">Celebrity Performers</div>
+        <div class="cat-count">95+ Artists</div>
+        <span class="cat-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURED ARTISTS ── -->
+<section id="artists">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-tag fade-up">Trending This Week</div>
+        <h2 class="section-title fade-up">Featured <span class="italic">Artists</span></h2>
+        <p class="section-sub fade-up">Handpicked performers with verified reviews, real-time availability and instant booking.</p>
+      </div>
+      <a href="#" class="btn btn-ghost fade-up" style="flex-shrink:0">See All Artists →</a>
+    </div>
+    <div class="artist-grid">
+
+      <div class="artist-card fade-up stagger-1">
+        <div class="artist-img-wrap">
+          <div class="artist-img-placeholder ap1">🎤</div>
+          <div class="artist-overlay"></div>
+          <div class="artist-badge"><span class="badge-dot"></span> Available</div>
+          <div class="artist-img-info">
+            <div class="artist-name-big">Priya Sharma</div>
+            <div class="artist-type-tag">🎤 Bollywood Vocalist · Mumbai</div>
+          </div>
+        </div>
+        <div class="artist-body">
+          <div class="artist-meta">
+            <div class="artist-rating-row">
+              <span class="stars">★★★★★</span>
+              <span class="artist-rating-val">4.9</span>
+              <span class="artist-reviews">(284 reviews)</span>
+            </div>
+          </div>
+          <div class="artist-tags">
+            <span class="atag">Bollywood</span>
+            <span class="atag">Sufi</span>
+            <span class="atag">Ghazal</span>
+            <span class="atag">Wedding</span>
+          </div>
+          <div class="artist-footer">
+            <div>
+              <div class="artist-price-label">Starting from</div>
+              <div class="artist-price">₹55,000 <span>/ event</span></div>
+            </div>
+            <a href="#" class="btn btn-gold" style="padding:9px 18px;font-size:13px;">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="artist-card fade-up stagger-2">
+        <div class="artist-img-wrap">
+          <div class="artist-img-placeholder ap2">🎧</div>
+          <div class="artist-overlay"></div>
+          <div class="artist-badge"><span class="badge-dot"></span> Available</div>
+          <div class="artist-img-info">
+            <div class="artist-name-big">DJ Vortex</div>
+            <div class="artist-type-tag">🎧 Electronic / EDM · Delhi</div>
+          </div>
+        </div>
+        <div class="artist-body">
+          <div class="artist-meta">
+            <div class="artist-rating-row">
+              <span class="stars">★★★★★</span>
+              <span class="artist-rating-val">4.8</span>
+              <span class="artist-reviews">(156 reviews)</span>
+            </div>
+          </div>
+          <div class="artist-tags">
+            <span class="atag">EDM</span>
+            <span class="atag">Club</span>
+            <span class="atag">Corporate</span>
+          </div>
+          <div class="artist-footer">
+            <div>
+              <div class="artist-price-label">Starting from</div>
+              <div class="artist-price">₹40,000 <span>/ night</span></div>
+            </div>
+            <a href="#" class="btn btn-gold" style="padding:9px 18px;font-size:13px;">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="artist-card fade-up stagger-3">
+        <div class="artist-img-wrap">
+          <div class="artist-img-placeholder ap5">🎭</div>
+          <div class="artist-overlay"></div>
+          <div class="artist-badge"><span class="badge-dot"></span> Available</div>
+          <div class="artist-img-info">
+            <div class="artist-name-big">Rohit Gupta</div>
+            <div class="artist-type-tag">🎭 Stand-up Comedian · Bangalore</div>
+          </div>
+        </div>
+        <div class="artist-body">
+          <div class="artist-meta">
+            <div class="artist-rating-row">
+              <span class="stars">★★★★☆</span>
+              <span class="artist-rating-val">4.7</span>
+              <span class="artist-reviews">(98 reviews)</span>
+            </div>
+          </div>
+          <div class="artist-tags">
+            <span class="atag">English</span>
+            <span class="atag">Hindi</span>
+            <span class="atag">Corporate</span>
+          </div>
+          <div class="artist-footer">
+            <div>
+              <div class="artist-price-label">Starting from</div>
+              <div class="artist-price">₹30,000 <span>/ show</span></div>
+            </div>
+            <a href="#" class="btn btn-gold" style="padding:9px 18px;font-size:13px;">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="artist-card fade-up stagger-1">
+        <div class="artist-img-wrap">
+          <div class="artist-img-placeholder ap4">🎙️</div>
+          <div class="artist-overlay"></div>
+          <div class="artist-badge" style="background:rgba(212,175,55,0.15);border-color:rgba(212,175,55,0.3)">🏆 Top Rated</div>
+          <div class="artist-img-info">
+            <div class="artist-name-big">Meera Pillai</div>
+            <div class="artist-type-tag">🎙️ Bilingual Anchor · Chennai</div>
+          </div>
+        </div>
+        <div class="artist-body">
+          <div class="artist-meta">
+            <div class="artist-rating-row">
+              <span class="stars">★★★★★</span>
+              <span class="artist-rating-val">5.0</span>
+              <span class="artist-reviews">(210 reviews)</span>
+            </div>
+          </div>
+          <div class="artist-tags">
+            <span class="atag">Tamil</span>
+            <span class="atag">English</span>
+            <span class="atag">Wedding</span>
+          </div>
+          <div class="artist-footer">
+            <div>
+              <div class="artist-price-label">Starting from</div>
+              <div class="artist-price">₹25,000 <span>/ event</span></div>
+            </div>
+            <a href="#" class="btn btn-gold" style="padding:9px 18px;font-size:13px;">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="artist-card fade-up stagger-2">
+        <div class="artist-img-wrap">
+          <div class="artist-img-placeholder ap3">💃</div>
+          <div class="artist-overlay"></div>
+          <div class="artist-badge"><span class="badge-dot"></span> Available</div>
+          <div class="artist-img-info">
+            <div class="artist-name-big">Natya Collective</div>
+            <div class="artist-type-tag">💃 Classical Dance Troupe · Pune</div>
+          </div>
+        </div>
+        <div class="artist-body">
+          <div class="artist-meta">
+            <div class="artist-rating-row">
+              <span class="stars">★★★★★</span>
+              <span class="artist-rating-val">4.9</span>
+              <span class="artist-reviews">(67 reviews)</span>
+            </div>
+          </div>
+          <div class="artist-tags">
+            <span class="atag">Bharatnatyam</span>
+            <span class="atag">Kathak</span>
+          </div>
+          <div class="artist-footer">
+            <div>
+              <div class="artist-price-label">Starting from</div>
+              <div class="artist-price">₹45,000 <span>/ show</span></div>
+            </div>
+            <a href="#" class="btn btn-gold" style="padding:9px 18px;font-size:13px;">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="artist-card fade-up stagger-3">
+        <div class="artist-img-wrap">
+          <div class="artist-img-placeholder ap6">🎻</div>
+          <div class="artist-overlay"></div>
+          <div class="artist-badge"><span class="badge-dot"></span> Available</div>
+          <div class="artist-img-info">
+            <div class="artist-name-big">The Resonance Band</div>
+            <div class="artist-type-tag">🎻 Live Band · Hyderabad</div>
+          </div>
+        </div>
+        <div class="artist-body">
+          <div class="artist-meta">
+            <div class="artist-rating-row">
+              <span class="stars">★★★★★</span>
+              <span class="artist-rating-val">4.8</span>
+              <span class="artist-reviews">(143 reviews)</span>
+            </div>
+          </div>
+          <div class="artist-tags">
+            <span class="atag">Jazz</span>
+            <span class="atag">Pop</span>
+            <span class="atag">Fusion</span>
+          </div>
+          <div class="artist-footer">
+            <div>
+              <div class="artist-price-label">Starting from</div>
+              <div class="artist-price">₹80,000 <span>/ event</span></div>
+            </div>
+            <a href="#" class="btn btn-gold" style="padding:9px 18px;font-size:13px;">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS STRIP ── -->
+<div class="stats-strip">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat-item fade-up">
+        <div class="stat-num">5,200+</div>
+        <div class="stat-label">Verified Artists</div>
+      </div>
+      <div class="stat-item fade-up stagger-2">
+        <div class="stat-num">₹42Cr+</div>
+        <div class="stat-label">Disbursed to Artists</div>
+      </div>
+      <div class="stat-item fade-up stagger-3">
+        <div class="stat-num">48,000+</div>
+        <div class="stat-label">Successful Events</div>
+      </div>
+      <div class="stat-item fade-up stagger-4">
+        <div class="stat-num">4.9★</div>
+        <div class="stat-label">Average Platform Rating</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HOW IT WORKS ── -->
+<section id="howitworks">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:0">
+      <div class="section-tag fade-up" style="margin:0 auto 20px">Simple. Transparent. Instant.</div>
+      <h2 class="section-title fade-up" style="text-align:center">Book your dream artist<br>in <span class="accent">4 easy steps</span></h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card fade-up stagger-1">
+        <div class="step-num-wrap">
+          <div class="step-num">01</div>
+        </div>
+        <span class="step-icon">🔍</span>
+        <div class="step-title">Discover & Filter</div>
+        <div class="step-desc">Use AI-powered search or browse by category, city, budget and event type. Compare profiles, videos and reviews.</div>
+      </div>
+      <div class="step-card fade-up stagger-2">
+        <div class="step-num-wrap">
+          <div class="step-num">02</div>
+        </div>
+        <span class="step-icon">📅</span>
+        <div class="step-title">Check Availability</div>
+        <div class="step-desc">View the artist's real-time calendar, select your date and get an instant quote with transparent pricing — no hidden fees.</div>
+      </div>
+      <div class="step-card fade-up stagger-3">
+        <div class="step-num-wrap">
+          <div class="step-num">03</div>
+        </div>
+        <span class="step-icon">🔐</span>
+        <div class="step-title">Secure Booking</div>
+        <div class="step-desc">Pay just 5% platform fee to confirm. Funds held in escrow. Auto-generated contract protects both parties.</div>
+      </div>
+      <div class="step-card fade-up stagger-4">
+        <div class="step-num-wrap">
+          <div class="step-num">04</div>
+        </div>
+        <span class="step-icon">✨</span>
+        <div class="step-title">Enjoy the Show</div>
+        <div class="step-desc">Artist performs, you verify completion, and payment releases automatically. Leave a verified review to help the community.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BOOKING TOKEN ── -->
+<section id="token">
+  <div class="container">
+    <div class="token-card fade-up">
+      <div class="token-card-glow"></div>
+      <div>
+        <div class="section-tag" style="margin-bottom:20px">Escrow-Protected Payments</div>
+        <div class="token-highlight">5%</div>
+        <div class="token-label">Advance Booking Token</div>
+        <p style="font-size:15px;color:var(--white-muted);line-height:1.75;max-width:400px;">Lock in your preferred artist with just a 5% platform booking fee. The rest is held safely in escrow until your event is completed and verified.</p>
+      </div>
+      <ul class="token-list">
+        <li><span class="tcheck">✓</span> Only 5% advance to confirm booking</li>
+        <li><span class="tcheck">✓</span> Remaining paid via milestones or before event</li>
+        <li><span class="tcheck">✓</span> Funds held in platform escrow</li>
+        <li><span class="tcheck">✓</span> Auto-generated legal contract included</li>
+        <li><span class="tcheck">✓</span> Instant refund on cancellation policy</li>
+        <li><span class="tcheck">✓</span> GST invoice auto-generated</li>
+        <li><span class="tcheck">✓</span> Pay via UPI, Cards, Net Banking, Wallets</li>
+        <li><span class="tcheck">✓</span> Zero hidden platform commission for customers</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── CITIES ── -->
+<section id="cities">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="section-tag fade-up" style="margin:0 auto 16px">Pan-India Presence</div>
+      <h2 class="section-title fade-up" style="text-align:center">Artists in your <span class="accent">city</span></h2>
+    </div>
+    <div class="cities-grid">
+      <div class="city-card fade-up stagger-1"><div class="city-icon">🏙️</div><div class="city-name">Mumbai</div><div class="city-count">1,200+ artists</div></div>
+      <div class="city-card fade-up stagger-2"><div class="city-icon">🏛️</div><div class="city-name">Delhi / NCR</div><div class="city-count">980+ artists</div></div>
+      <div class="city-card fade-up stagger-3"><div class="city-icon">🌿</div><div class="city-name">Bangalore</div><div class="city-count">740+ artists</div></div>
+      <div class="city-card fade-up stagger-4"><div class="city-icon">🌊</div><div class="city-name">Chennai</div><div class="city-count">510+ artists</div></div>
+      <div class="city-card fade-up stagger-5"><div class="city-icon">💎</div><div class="city-name">Hyderabad</div><div class="city-count">630+ artists</div></div>
+      <div class="city-card fade-up stagger-6"><div class="city-icon">🎨</div><div class="city-name">Kolkata</div><div class="city-count">420+ artists</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:52px">
+      <div class="section-tag fade-up" style="margin:0 auto 16px">48,000+ Happy Clients</div>
+      <h2 class="section-title fade-up" style="text-align:center">Loved by <span class="italic">event planners</span><br>across India</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card fade-up stagger-1">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"Booked a Bollywood singer for our daughter's wedding through BookTalent. The entire process — from discovery to payment to performance — was absolutely flawless. Truly the Airbnb for talent."</div>
+        <div class="testi-person">
+          <div class="testi-avatar tav1">RK</div>
+          <div>
+            <div class="testi-name">Rajesh Khanna</div>
+            <div class="testi-role">Wedding Planner, Mumbai</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up stagger-2">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"We've used BookTalent for three corporate annual functions. The quality of artists, transparent pricing and escrow system gives us full confidence. Our go-to platform for all talent bookings."</div>
+        <div class="testi-person">
+          <div class="testi-avatar tav2">AP</div>
+          <div>
+            <div class="testi-name">Ananya Patel</div>
+            <div class="testi-role">HR Manager, TechCorp India</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up stagger-3">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"As an artist, BookTalent changed my life. I went from struggling to find gigs to being fully booked 3 months in advance. The wallet system and auto contracts are game changers."</div>
+        <div class="testi-person">
+          <div class="testi-avatar tav3">SM</div>
+          <div>
+            <div class="testi-name">Siddharth Mehta</div>
+            <div class="testi-role">DJ & Music Producer, Delhi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DUAL CTA ── -->
+<section id="cta-corporate">
+  <div class="container">
+    <div class="dual-cta">
+      <div class="cta-box cta-artist fade-up stagger-1">
+        <div class="cta-box-glow cta-glow-purple"></div>
+        <span class="cta-box-icon">🎤</span>
+        <div class="cta-box-title">Are you an Artist?</div>
+        <div class="cta-box-desc">Join 5,000+ performers earning premium fees. Manage your profile, calendar, pricing and earnings — all in one powerful dashboard.</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="#" class="btn btn-purple" style="font-size:15px;padding:13px 28px;">Join as Artist →</a>
+          <a href="#" class="btn btn-ghost">Learn more</a>
+        </div>
+      </div>
+      <div class="cta-box cta-corporate fade-up stagger-2">
+        <div class="cta-box-glow cta-glow-gold"></div>
+        <span class="cta-box-icon">🏢</span>
+        <div class="cta-box-title">Corporate Events?</div>
+        <div class="cta-box-desc">Manage multiple events, bulk bookings, custom contracts and team collaboration with our dedicated Corporate Event Management Suite.</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="#" class="btn btn-gold" style="font-size:15px;padding:13px 28px;">Get Corporate Access →</a>
+          <a href="#" class="btn btn-ghost">View pricing</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── APP DOWNLOAD ── -->
+<section id="app-download">
+  <div class="container">
+    <div class="app-inner">
+      <div>
+        <div class="section-tag fade-up">Available on iOS &amp; Android</div>
+        <h2 class="section-title fade-up">Book talent<br>from your <span class="accent">pocket</span></h2>
+        <p class="section-sub fade-up" style="margin-bottom:36px">Live booking tracking, wallet management, AI-powered recommendations, real-time chat and push notifications — all in the palm of your hand.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap" class="fade-up stagger-2">
+          <a href="#" class="btn btn-ghost" style="gap:10px;padding:12px 22px;font-size:14px;border-color:rgba(255,255,255,0.15)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--white)" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            App Store
+          </a>
+          <a href="#" class="btn btn-ghost" style="gap:10px;padding:12px 22px;font-size:14px;border-color:rgba(255,255,255,0.15)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.18 23.71c.26.15.57.22.9.19l12.54-7.24-2.6-2.6-10.84 9.65zM20.5 10.58l-2.87-1.66-2.93 2.93 2.93 2.93 2.9-1.68c.83-.48.83-1.54-.03-2.52zM2.02 1.02C1.73 1.33 1.55 1.8 1.55 2.4v19.2c0 .6.18 1.07.49 1.37l.07.07 10.77-10.77v-.25L2.02 1.02zM13.79 7.62l-2.6-2.6L1.1.12c-.27-.05-.53 0-.76.15l11.06 11.06 2.39-3.71z" fill="var(--white)"/></svg>
+            Google Play
+          </a>
+        </div>
+      </div>
+      <div class="app-mockup fade-up stagger-2">
+        <div class="phone-frame">
+          <div class="phone-top"><div class="phone-notch"></div></div>
+          <div class="phone-content">
+            <div class="phone-row" style="height:90px;background:linear-gradient(135deg,rgba(109,40,217,0.2),rgba(212,175,55,0.1));display:flex;align-items:center;justify-content:center;font-size:30px;">🎤</div>
+            <div class="phone-row"></div>
+            <div class="phone-row phone-row-gold"></div>
+            <div class="phone-row" style="height:36px"></div>
+            <div class="phone-row"></div>
+            <div class="phone-row" style="height:36px"></div>
+          </div>
+        </div>
+        <div class="phone-frame">
+          <div class="phone-top"><div class="phone-notch"></div></div>
+          <div class="phone-content">
+            <div class="phone-row" style="height:90px;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(109,40,217,0.1));display:flex;align-items:center;justify-content:center;font-size:30px;">📅</div>
+            <div class="phone-row phone-row-gold"></div>
+            <div class="phone-row"></div>
+            <div class="phone-row" style="height:36px"></div>
+            <div class="phone-row"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:52px">
+      <div class="section-tag fade-up" style="margin:0 auto 16px">Got Questions?</div>
+      <h2 class="section-title fade-up" style="text-align:center">Frequently Asked <span class="italic">Questions</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item fade-up">
+        <div class="faq-q">How does BookTalent verify artists? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Every artist goes through a multi-step KYC process including government ID verification, portfolio review, video audition and reference checks. Verified artists display a gold badge on their profile.</div>
+      </div>
+      <div class="faq-item fade-up stagger-1">
+        <div class="faq-q">What is the 5% booking token? <span class="faq-icon">+</span></div>
+        <div class="faq-a">To secure an artist's availability, you pay just 5% of the total fee as a platform booking token. The remaining 95% is collected via milestones or before the event, and held in escrow until completion.</div>
+      </div>
+      <div class="faq-item fade-up stagger-2">
+        <div class="faq-q">What if the artist cancels or doesn't show up? <span class="faq-icon">+</span></div>
+        <div class="faq-a">BookTalent provides full refund protection. If an artist cancels within 48 hours of the event or fails to perform, you receive a 100% refund plus priority rebooking assistance with a comparable artist.</div>
+      </div>
+      <div class="faq-item fade-up stagger-3">
+        <div class="faq-q">Can I negotiate pricing with artists? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes! You can send a custom booking request with your budget. Artists can counter-offer or accept. Our platform facilitates transparent negotiation while protecting both parties with an auto-generated contract.</div>
+      </div>
+      <div class="faq-item fade-up stagger-4">
+        <div class="faq-q">Are there discounts for corporate or bulk bookings? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Absolutely. Corporate clients and agencies get access to volume pricing, dedicated account managers, priority support and custom contract terms. Contact our corporate team for a customized proposal.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="nav-logo" style="text-decoration:none;display:inline-flex">
+          <div class="logo-mark">B</div>
+          <span class="logo-text" style="font-size:20px">Book<span>Talent</span></span>
+        </a>
+        <p class="footer-brand-desc">India's most premium talent booking marketplace. Connecting 5,000+ verified artists with clients across 32 cities.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn">𝕏</a>
+          <a href="#" class="social-btn">in</a>
+          <a href="#" class="social-btn">📸</a>
+          <a href="#" class="social-btn">▶</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Platform</div>
+        <ul class="footer-links">
+          <li><a href="#">Browse Artists</a></li>
+          <li><a href="#">How It Works</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Cities</a></li>
+          <li><a href="#">Corporate</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">For Artists</div>
+        <ul class="footer-links">
+          <li><a href="#">Join as Artist</a></li>
+          <li><a href="#">Artist Dashboard</a></li>
+          <li><a href="#">Agency Portal</a></li>
+          <li><a href="#">Success Stories</a></li>
+          <li><a href="#">Artist Academy</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2025 BookTalent Technologies Pvt. Ltd. · Made with ♦ in India</div>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Refund Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll animation observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Smooth number counter animation for stats
+  function animateCounter(el, target, suffix = '') {
+    let start = 0;
+    const duration = 1800;
+    const step = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * target);
+      el.textContent = current.toLocaleString('en-IN') + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  // Trigger counters when stats section visible
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const nums = e.target.querySelectorAll('.stat-num');
+        nums.forEach(n => {
+          const text = n.textContent;
+          if (text.includes('5,200')) animateCounter(n, 5200, '+');
+          else if (text.includes('48,000')) animateCounter(n, 48000, '+');
+        });
+        statsObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const statsEl = document.querySelector('.stats-inner');
+  if (statsEl) statsObserver.observe(statsEl);
+</script>
+</body>
+</html>

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Admin — BookTalent</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06060E;--bg2:#0A0A18;--bg3:#0F0F22;--bg4:#14142C;
+  --sidebar:#070712;
+  --purple:#5B21B6;--purple-mid:#7C3AED;--purple-light:#A78BFA;
+  --gold:#D4AF37;--gold-light:#F5C842;--gold-dim:rgba(212,175,55,0.12);--gold-border:rgba(212,175,55,0.2);
+  --red-accent:#C0392B;
+  --white:#EEEAFF;--white-muted:rgba(238,234,255,0.52);--white-dim:rgba(238,234,255,0.15);
+  --glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.065);
+  --green:#059669;--green-glow:rgba(5,150,105,0.1);
+  --red:#E11D48;--red-glow:rgba(225,29,72,0.1);
+  --amber:#D97706;--amber-glow:rgba(217,119,6,0.1);
+  --blue:#2563EB;--blue-glow:rgba(37,99,235,0.1);
+  --cyan:#0891B2;--cyan-glow:rgba(8,145,178,0.1);
+  --radius:13px;--radius-sm:8px;--radius-lg:20px;--radius-xl:26px;
+  --sw:256px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;display:flex;min-height:100vh;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");opacity:0.6}
+
+.orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;animation:oP 16s ease-in-out infinite}
+.oa{width:600px;height:600px;background:var(--purple);opacity:0.05;top:-250px;left:80px}
+.ob{width:400px;height:400px;background:var(--red-accent);opacity:0.04;top:30%;right:-150px;animation-delay:-6s}
+.oc{width:500px;height:500px;background:var(--gold);opacity:0.04;bottom:-200px;left:30%;animation-delay:-11s}
+@keyframes oP{0%,100%{transform:scale(1)}50%{transform:scale(1.08) translateY(-20px)}}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sw);min-height:100vh;background:var(--sidebar);border-right:1px solid var(--glass-border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:200;overflow:hidden}
+.sidebar::before{content:'';position:absolute;bottom:-80px;right:-80px;width:240px;height:240px;background:var(--purple);border-radius:50%;filter:blur(90px);opacity:0.07;pointer-events:none}
+
+.sb-logo{display:flex;align-items:center;gap:10px;padding:22px 20px 18px;border-bottom:1px solid var(--glass-border);text-decoration:none;margin-bottom:6px}
+.sb-lm{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--gold),var(--purple-mid));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;color:#1A0A00;box-shadow:0 0 18px rgba(212,175,55,0.28);flex-shrink:0}
+.sb-lt{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:18px;color:var(--white)}
+.sb-lt span{color:var(--gold-light)}
+.sb-lt small{display:block;font-size:10px;font-family:'DM Sans',sans-serif;font-weight:600;color:var(--red);letter-spacing:0.08em;text-transform:uppercase;margin-top:-2px}
+
+.sb-admin{margin:4px 14px 14px;padding:10px 13px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);display:flex;align-items:center;gap:10px}
+.sb-admin-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--red-accent),#8B0000);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;border:1.5px solid rgba(192,57,43,0.4)}
+.sb-admin-name{font-size:12px;font-weight:600;color:var(--white)}
+.sb-admin-role{font-size:10px;color:var(--red);font-weight:600;letter-spacing:0.05em}
+.sb-ring{margin-left:auto;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green)}
+
+.sb-sec{font-size:9.5px;font-weight:700;letter-spacing:0.1em;color:var(--white-dim);text-transform:uppercase;padding:10px 20px 5px}
+.sb-nav{list-style:none;padding:0 8px;margin-bottom:2px}
+.sb-nav li{margin-bottom:1px}
+.sb-lnk{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);color:var(--white-muted);text-decoration:none;font-size:13px;font-weight:500;transition:all 0.2s;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif;position:relative}
+.sb-lnk:hover{color:var(--white);background:var(--glass)}
+.sb-lnk.active{color:var(--white);background:linear-gradient(135deg,rgba(91,33,182,0.2),rgba(91,33,182,0.05));border:1px solid rgba(91,33,182,0.2)}
+.sb-lnk.active .sbi{color:var(--purple-light)}
+.sbi{font-size:15px;flex-shrink:0;width:18px;text-align:center}
+.sb-count{margin-left:auto;font-size:10px;font-weight:700;padding:1px 7px;border-radius:100px;background:rgba(225,29,72,0.15);color:var(--red);border:1px solid rgba(225,29,72,0.2)}
+.sb-count-a{background:rgba(212,175,55,0.1);color:var(--gold-light);border-color:var(--gold-border)}
+.sb-count-g{background:rgba(5,150,105,0.12);color:var(--green);border-color:rgba(5,150,105,0.2)}
+
+.sb-bottom{margin-top:auto;padding:14px}
+.sb-bottom-link{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:var(--white-muted);cursor:pointer;border-radius:var(--radius-sm);transition:all 0.2s;border:none;background:none;width:100%;font-family:'DM Sans',sans-serif}
+.sb-bottom-link:hover{color:var(--white);background:var(--glass)}
+
+/* ── MAIN ── */
+.main{flex:1;margin-left:var(--sw);min-height:100vh;display:flex;flex-direction:column;position:relative;z-index:1}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;height:62px;background:rgba(6,6,14,0.8);backdrop-filter:blur(24px);border-bottom:1px solid var(--glass-border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--white)}
+.tb-title span{color:var(--gold-light);font-style:italic}
+.tb-r{display:flex;align-items:center;gap:10px}
+.tb-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:100px;background:rgba(225,29,72,0.1);border:1px solid rgba(225,29,72,0.2);font-size:11px;font-weight:600;color:var(--red)}
+.tb-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--red);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.srch{display:flex;align-items:center;gap:7px;background:var(--glass);border:1px solid var(--glass-border);border-radius:100px;padding:7px 14px;width:200px;transition:all 0.2s}
+.srch:focus-within{border-color:rgba(91,33,182,0.4);width:240px}
+.srch input{background:none;border:none;outline:none;font-size:12px;color:var(--white);font-family:'DM Sans',sans-serif;flex:1}
+.srch input::placeholder{color:var(--white-muted)}
+.ib{width:36px;height:36px;border-radius:9px;background:var(--glass);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:15px;color:var(--white-muted);position:relative}
+.ib:hover{border-color:rgba(212,175,55,0.3);color:var(--gold-light)}
+.ib .nd{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--red);border:1.5px solid var(--bg)}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.22s;text-decoration:none;border:none;letter-spacing:0.02em}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#B8960C);color:#1A0A00;box-shadow:0 3px 16px rgba(212,175,55,0.22)}
+.btn-gold:hover{box-shadow:0 5px 24px rgba(212,175,55,0.4);transform:translateY(-1px)}
+.btn-ghost{background:var(--glass);color:var(--white-muted);border:1px solid var(--glass-border)}
+.btn-ghost:hover{border-color:var(--white-dim);color:var(--white)}
+.btn-red{background:rgba(225,29,72,0.15);color:var(--red);border:1px solid rgba(225,29,72,0.25)}
+.btn-red:hover{background:rgba(225,29,72,0.25)}
+.btn-green{background:rgba(5,150,105,0.15);color:var(--green);border:1px solid rgba(5,150,105,0.25)}
+.btn-green:hover{background:rgba(5,150,105,0.25)}
+.btn-purple{background:linear-gradient(135deg,var(--purple-mid),#4C1D95);color:var(--white);box-shadow:0 3px 16px rgba(91,33,182,0.28)}
+.btn-purple:hover{box-shadow:0 5px 24px rgba(91,33,182,0.45);transform:translateY(-1px)}
+.btn-sm{padding:6px 12px;font-size:11px}
+.btn-xs{padding:4px 10px;font-size:11px;border-radius:6px}
+
+/* ── PAGE ── */
+.pc{padding:28px 32px;flex:1}
+.page-inner{display:none}
+.page-inner.active{display:block}
+
+/* ── WELCOME ── */
+.ws{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.ws h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--white);margin-bottom:3px}
+.ws h2 span{color:var(--gold-light);font-style:italic}
+.ws p{font-size:13px;color:var(--white-muted)}
+
+/* ── KPI GRID ── */
+.kpi4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.kpi3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
+.kpi-c{background:var(--bg2);border:1px solid var(--glass-border);border-radius:var(--radius-lg);padding:20px;position:relative;overflow:hidden;transition:all 0.22s;cursor:default}
+.kpi-c:hover{transform:translateY(-2px);border-color:rgba(91,33,182,0.2)}
+.kpi-c::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.3s;background:linear-gradient(135deg,rgba(91,33,182,0.05),transparent)}
+.kpi-c:hover::before{opacity:1}
+.kpi-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.kpi-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ico-g{background:var(--gold-dim);border:1px solid var(--gold-border)}
+.ico-p{background:rgba(91,33,182,0.15);border:1px solid rgba(91,33,182,0.25)}
+.ico-gr{background:var(--green-glow);border:1px solid rgba(5,150,105,0.2)}
+.ico-r{background:var(--red-glow);border:1px solid rgba(225,29,72,0.2)}
+.ico-b{background:var(--blue-glow);border:1px solid rgba(37,99,235,0.2)}
+.ico-a{background:var(--amber-glow);border:1px solid rgba(217,119,6,0.2)}
+.ico-c{background:var(--cyan-glow);border:1px solid rgba(8,145,178,0.2)}
+.kpi-chg{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:3px 7px;border-radius:100px}
+.up{color:var(--green);background:var(--green-glow);border:1px solid rgba(5,150,105,0.18)}
+.dn{color:var(--red);background:var(--red-glow);border:1px solid rgba(225,29,72,0.18)}
+.kpi-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--white);line-height:1;margin-bottom:3px}
+.kpi-lbl{font-size:11.5px;color:var(--white-muted)}
+.kpi-sub{font-size:11px;color:var(--white-dim);margin-top:6px}
+
+/* ── GRID LAYOUTS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.g21{display:grid;grid-template-columns:1fr 320px;gap:16px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.g31{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px}
+
+/* ── CARD ── */
+.card{background:var(--bg2);border:1px solid var(--glass-border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:0}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:17px 20px 14px;border-bottom:1px solid var(--glass-border)}
+.ct{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--white)}
+.cti{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.cb{padding:18px 20px}
+
+/* ── LIVE ACTIVITY TICKER ── */
+.live-strip{
+  background:linear-gradient(90deg,rgba(225,29,72,0.06),rgba(91,33,182,0.06),rgba(212,175,55,0.04));
+  border:1px solid rgba(225,29,72,0.15);
+  border-radius:var(--radius);padding:10px 18px;
+  display:flex;align-items:center;gap:16px;margin-bottom:20px;overflow:hidden;
+}
+.live-label{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--red);letter-spacing:0.06em;flex-shrink:0}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 1.5s infinite}
+.ticker-wrap{flex:1;overflow:hidden}
+.ticker{display:flex;gap:40px;animation:tick 25s linear infinite;width:max-content}
+.ticker-item{font-size:12px;color:var(--white-muted);white-space:nowrap;display:flex;align-items:center;gap:8px}
+.ticker-item strong{color:var(--white)}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── TABLE ── */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.06em;color:var(--white-muted);text-transform:uppercase;border-bottom:1px solid var(--glass-border);background:rgba(255,255,255,0.015)}
+.tbl td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(91,33,182,0.03)}
+.tbl-name{font-weight:600;color:var(--white)}
+.tbl-sub{font-size:11px;color:var(--white-muted);margin-top:2px}
+.tbl-avatar{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+
+/* Status pills */
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:100px;font-size:10.5px;font-weight:600;letter-spacing:0.03em;white-space:nowrap}
+.p-pend{background:var(--amber-glow);color:var(--amber);border:1px solid rgba(217,119,6,0.22)}
+.p-conf{background:var(--green-glow);color:var(--green);border:1px solid rgba(5,150,105,0.22)}
+.p-decl{background:var(--red-glow);color:var(--red);border:1px solid rgba(225,29,72,0.22)}
+.p-comp{background:var(--blue-glow);color:#60A5FA;border:1px solid rgba(37,99,235,0.22)}
+.p-esc{background:var(--cyan-glow);color:#22D3EE;border:1px solid rgba(8,145,178,0.22)}
+.p-verif{background:var(--green-glow);color:var(--green);border:1px solid rgba(5,150,105,0.22)}
+.p-pend-v{background:var(--amber-glow);color:var(--amber);border:1px solid rgba(217,119,6,0.22)}
+.p-susp{background:var(--red-glow);color:var(--red);border:1px solid rgba(225,29,72,0.22)}
+.p-feat{background:var(--gold-dim);color:var(--gold-light);border:1px solid var(--gold-border)}
+
+/* ── SPARKLINE ── */
+.spark{display:flex;align-items:flex-end;gap:2px;height:28px}
+.sp-b{width:5px;border-radius:2px 2px 0 0;background:rgba(91,33,182,0.3);min-height:3px;transition:height 0.5s}
+.sp-b.g{background:rgba(5,150,105,0.3)}
+.sp-b.a{background:rgba(212,175,55,0.3)}
+
+/* ── REVENUE DONUT ── */
+.donut-wrap{display:flex;align-items:center;gap:24px}
+.donut{position:relative;width:140px;height:140px;flex-shrink:0}
+.donut svg{width:140px;height:140px;transform:rotate(-90deg)}
+.donut-bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:16}
+.donut-seg{fill:none;stroke-width:16;stroke-linecap:butt;transition:stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1)}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donut-main{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold-light);line-height:1}
+.donut-sub{font-size:10px;color:var(--white-muted);margin-top:2px}
+.donut-legend{flex:1;display:flex;flex-direction:column;gap:10px}
+.dl-item{display:flex;align-items:center;gap:8px}
+.dl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.dl-info{flex:1}
+.dl-label{font-size:12px;color:var(--white-muted);margin-bottom:1px}
+.dl-val{font-size:13px;font-weight:600;color:var(--white)}
+.dl-pct{font-size:11px;color:var(--white-dim)}
+
+/* ── CHART BARS ── */
+.bar-chart{display:flex;align-items:flex-end;gap:8px;height:140px;margin-top:8px}
+.bc-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:0}
+.bc-b{width:100%;border-radius:5px 5px 0 0;min-height:4px;transition:height 0.7s cubic-bezier(0.34,1.56,0.64,1)}
+.bc-lbl{font-size:10px;color:var(--white-muted);margin-top:5px}
+.bc-val{font-size:10px;color:var(--white-dim);margin-top:2px}
+
+/* ── MAP PLACEHOLDER ── */
+.india-map{height:220px;background:linear-gradient(135deg,rgba(91,33,182,0.06),rgba(212,175,55,0.04));border-radius:var(--radius);border:1px dashed rgba(91,33,182,0.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--white-muted);font-size:13px}
+
+/* ── APPROVAL ROW ── */
+.appr-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--glass-border)}
+.appr-row:last-child{border-bottom:none;padding-bottom:0}
+.appr-av{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.appr-info{flex:1}
+.appr-name{font-size:13px;font-weight:600;color:var(--white);margin-bottom:2px}
+.appr-meta{font-size:11px;color:var(--white-muted)}
+.appr-actions{display:flex;gap:7px}
+
+/* ── NOTIF LOG ── */
+.log-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.log-row:last-child{border-bottom:none;padding-bottom:0}
+.log-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+.log-body{flex:1}
+.log-msg{font-size:12.5px;color:var(--white-muted);line-height:1.5}
+.log-msg strong{color:var(--white)}
+.log-time{font-size:10px;color:var(--white-dim);margin-top:2px;font-family:'JetBrains Mono',monospace}
+
+/* ── USER ROWS ── */
+.user-filter{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.uf-btn{padding:5px 14px;border-radius:100px;font-size:11px;font-weight:600;border:1px solid var(--glass-border);background:var(--glass);color:var(--white-muted);cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.uf-btn.act{background:rgba(91,33,182,0.15);border-color:rgba(91,33,182,0.3);color:var(--purple-light)}
+
+/* ── MODALS ── */
+.modal-ov{position:fixed;inset:0;background:rgba(6,6,14,0.75);display:flex;align-items:center;justify-content:center;z-index:600;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(8px)}
+.modal-ov.open{opacity:1;pointer-events:all}
+.modal{background:var(--bg2);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:30px;width:420px;transform:translateY(18px) scale(0.97);transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);position:relative}
+.modal-ov.open .modal{transform:translateY(0) scale(1)}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--white-muted);margin-bottom:20px}
+.modal-x{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:7px;background:var(--glass);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--white-muted);transition:all 0.2s}
+.modal-x:hover{color:var(--white)}
+.mf{margin-bottom:14px}
+.ml{font-size:11px;font-weight:600;color:var(--white-muted);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:5px}
+.mi{width:100%;padding:10px 13px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);border-radius:var(--radius-sm);font-size:13px;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;transition:all 0.2s}
+.mi:focus{border-color:rgba(212,175,55,0.35);background:rgba(212,175,55,0.04)}
+.mi option{background:var(--bg2)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--bg3);border:1px solid var(--glass-border);border-radius:100px;padding:10px 20px;font-size:13px;font-weight:500;color:var(--white);z-index:9999;opacity:0;transition:all 0.3s;white-space:nowrap;box-shadow:0 14px 40px rgba(0,0,0,0.5);display:flex;align-items:center;gap:7px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{border-color:rgba(5,150,105,0.3)}
+.toast.err{border-color:rgba(225,29,72,0.3)}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.07);border-radius:2px}
+</style>
+</head>
+<body>
+<div class="orb oa"></div>
+<div class="orb ob"></div>
+<div class="orb oc"></div>
+
+<!-- ══════════ SIDEBAR ══════════ -->
+<aside class="sidebar">
+  <a href="booktalent.html" class="sb-logo">
+    <div class="sb-lm">B</div>
+    <span class="sb-lt">Book<span>Talent</span><small>Super Admin</small></span>
+  </a>
+  <div class="sb-admin">
+    <div class="sb-admin-av">👑</div>
+    <div><div class="sb-admin-name">Admin: Vikram S.</div><div class="sb-admin-role">Super Admin</div></div>
+    <div class="sb-ring"></div>
+  </div>
+
+  <div class="sb-sec">Core</div>
+  <ul class="sb-nav">
+    <li><button class="sb-lnk active" onclick="sw('overview',this)"><span class="sbi">◉</span> Dashboard</button></li>
+    <li><button class="sb-lnk" onclick="sw('bookings',this)"><span class="sbi">📋</span> Bookings <span class="sb-count">12</span></button></li>
+    <li><button class="sb-lnk" onclick="sw('revenue',this)"><span class="sbi">💰</span> Revenue</button></li>
+    <li><button class="sb-lnk" onclick="sw('live',this)"><span class="sbi">🔴</span> Live Monitor <span class="sb-count">3</span></button></li>
+  </ul>
+
+  <div class="sb-sec">Users</div>
+  <ul class="sb-nav">
+    <li><button class="sb-lnk" onclick="sw('artists',this)"><span class="sbi">🎤</span> Artists <span class="sb-count sb-count-a">7 New</span></button></li>
+    <li><button class="sb-lnk" onclick="sw('customers',this)"><span class="sbi">👥</span> Customers</button></li>
+    <li><button class="sb-lnk" onclick="sw('agencies',this)"><span class="sbi">🏢</span> Agencies</button></li>
+    <li><button class="sb-lnk" onclick="sw('kyc',this)"><span class="sbi">🪪</span> KYC Queue <span class="sb-count">9</span></button></li>
+  </ul>
+
+  <div class="sb-sec">Finance</div>
+  <ul class="sb-nav">
+    <li><button class="sb-lnk" onclick="sw('payouts',this)"><span class="sbi">↑</span> Payouts <span class="sb-count sb-count-a">4</span></button></li>
+    <li><button class="sb-lnk" onclick="sw('refunds',this)"><span class="sbi">↩</span> Refunds <span class="sb-count">2</span></button></li>
+    <li><button class="sb-lnk" onclick="sw('commission',this)"><span class="sbi">%</span> Commission</button></li>
+    <li><button class="sb-lnk" onclick="sw('gst',this)"><span class="sbi">🧾</span> GST & Tax</button></li>
+  </ul>
+
+  <div class="sb-sec">Platform</div>
+  <ul class="sb-nav">
+    <li><button class="sb-lnk" onclick="sw('cms',this)"><span class="sbi">📝</span> CMS</button></li>
+    <li><button class="sb-lnk" onclick="sw('coupons',this)"><span class="sbi">🎫</span> Coupons <span class="sb-count sb-count-g">Active</span></button></li>
+    <li><button class="sb-lnk" onclick="sw('reports',this)"><span class="sbi">📊</span> Reports</button></li>
+    <li><button class="sb-lnk" onclick="sw('roles',this)"><span class="sbi">🔐</span> Roles & Permissions</button></li>
+    <li><button class="sb-lnk" onclick="sw('audit',this)"><span class="sbi">🗂</span> Audit Logs</button></li>
+    <li><button class="sb-lnk" onclick="sw('settings',this)"><span class="sbi">⚙</span> Settings</button></li>
+  </ul>
+
+  <div class="sb-bottom">
+    <button class="sb-bottom-link" onclick="showToast('API documentation opened','ok')"><span>🔌</span> API Management</button>
+    <button class="sb-bottom-link" onclick="showToast('Signing out…','')"><span>→</span> Sign Out</button>
+  </div>
+</aside>
+
+<!-- ══════════ MAIN ══════════ -->
+<main class="main">
+  <header class="topbar">
+    <div class="tb-title" id="tbTitle">Admin <span>Overview</span></div>
+    <div class="tb-r">
+      <div class="tb-badge"><span class="tb-badge-dot"></span> 3 Alerts</div>
+      <div class="srch"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(238,234,255,0.35)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input placeholder="Search users, bookings…"></div>
+      <div class="ib" onclick="showNotifPanel()">🔔<div class="nd"></div></div>
+      <div class="ib">📤</div>
+      <div class="ib" style="background:linear-gradient(135deg,#8B0000,#C0392B);border-color:rgba(192,57,43,0.35);font-size:16px;color:var(--white)">👑</div>
+    </div>
+  </header>
+
+  <div class="pc">
+
+  <!-- ══ OVERVIEW ══ -->
+  <div class="page-inner active" id="pg-overview">
+    <div class="ws"><div><h2>Platform <span>Overview</span></h2><p>Sunday, 24 May 2026 · All systems operational</p></div><div style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" onclick="showToast('📥 Exporting report…','ok')">Export Report</button><button class="btn btn-gold btn-sm" onclick="openModal('announcement')">+ Announcement</button></div></div>
+
+    <!-- Live ticker -->
+    <div class="live-strip">
+      <div class="live-label"><span class="live-dot"></span> LIVE</div>
+      <div class="ticker-wrap"><div class="ticker">
+        <div class="ticker-item"><strong>New booking</strong> — Sharma Wedding · ₹55,000 · Mumbai</div>
+        <div class="ticker-item">💰 <strong>Payout released</strong> — Priya Sharma · ₹52,250</div>
+        <div class="ticker-item">⭐ <strong>New 5★ review</strong> — DJ Vortex · Corporate Event</div>
+        <div class="ticker-item">🆕 <strong>Artist signup</strong> — Rohan Desai · Stand-up · Bangalore</div>
+        <div class="ticker-item">🚨 <strong>Suspicious activity</strong> — User #4821 · flagged for review</div>
+        <div class="ticker-item"><strong>New booking</strong> — Sharma Wedding · ₹55,000 · Mumbai</div>
+        <div class="ticker-item">💰 <strong>Payout released</strong> — Priya Sharma · ₹52,250</div>
+        <div class="ticker-item">⭐ <strong>New 5★ review</strong> — DJ Vortex · Corporate Event</div>
+        <div class="ticker-item">🆕 <strong>Artist signup</strong> — Rohan Desai · Stand-up · Bangalore</div>
+        <div class="ticker-item">🚨 <strong>Suspicious activity</strong> — User #4821 · flagged for review</div>
+      </div></div>
+    </div>
+
+    <!-- KPIs row 1 -->
+    <div class="kpi4">
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-g">💰</div><div class="kpi-chg up">↑ 22%</div></div><div class="kpi-num">₹4.2Cr</div><div class="kpi-lbl">Total GMV (MTD)</div><div class="kpi-sub">vs ₹3.44Cr last month</div></div>
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-p">📋</div><div class="kpi-chg up">↑ 18%</div></div><div class="kpi-num">2,840</div><div class="kpi-lbl">Total Bookings (MTD)</div><div class="kpi-sub">312 today · 98 pending</div></div>
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-gr">👥</div><div class="kpi-chg up">↑ 14%</div></div><div class="kpi-num">68,420</div><div class="kpi-lbl">Registered Users</div><div class="kpi-sub">5,200 artists · 63,220 clients</div></div>
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-g">🏦</div><div class="kpi-chg up">↑ 19%</div></div><div class="kpi-num">₹38.4L</div><div class="kpi-lbl">Platform Revenue (MTD)</div><div class="kpi-sub">Commissions + platform fees</div></div>
+    </div>
+
+    <!-- KPIs row 2 -->
+    <div class="kpi4" style="margin-bottom:18px">
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-a">⚖</div><div class="kpi-chg up">↑ 3%</div></div><div class="kpi-num">₹5.28Cr</div><div class="kpi-lbl">Funds in Escrow</div></div>
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-b">↑</div><div class="kpi-chg dn">↓ 2</div></div><div class="kpi-num">18</div><div class="kpi-lbl">Pending Payouts</div></div>
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-r">🚨</div><div class="kpi-chg dn">↑ 1</div></div><div class="kpi-num">7</div><div class="kpi-lbl">Open Disputes</div></div>
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-gr">★</div></div><div class="kpi-num">4.87</div><div class="kpi-lbl">Avg Platform Rating</div></div>
+    </div>
+
+    <div class="g31">
+      <!-- Revenue chart -->
+      <div class="card">
+        <div class="ch">
+          <div class="ct"><div class="cti ico-g">📈</div> Revenue vs Bookings (6 months)</div>
+          <div style="display:flex;gap:7px">
+            <button class="btn btn-ghost btn-sm" style="border-radius:7px;font-size:10px">Monthly</button>
+            <button class="btn btn-sm" style="border-radius:7px;font-size:10px;background:rgba(91,33,182,0.15);color:var(--purple-light);border:1px solid rgba(91,33,182,0.25)">Weekly</button>
+          </div>
+        </div>
+        <div class="cb">
+          <div class="bar-chart" id="adminChart">
+            <!-- built by JS -->
+          </div>
+          <div style="display:flex;gap:18px;margin-top:10px">
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--white-muted)"><div style="width:9px;height:9px;border-radius:50%;background:var(--purple-mid)"></div> Revenue</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--white-muted)"><div style="width:9px;height:9px;border-radius:50%;background:var(--gold)"></div> Bookings</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Revenue donut -->
+      <div class="card">
+        <div class="ch"><div class="ct"><div class="cti ico-g">🍩</div> Revenue Split</div></div>
+        <div class="cb">
+          <div class="donut-wrap">
+            <div class="donut">
+              <svg viewBox="0 0 140 140"><defs><linearGradient id="dg1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4AF37"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient></defs><circle class="donut-bg" cx="70" cy="70" r="54"/><circle class="donut-seg" cx="70" cy="70" r="54" stroke="url(#dg1)" style="stroke-dasharray:339.3;stroke-dashoffset:84.8"/></svg>
+              <div class="donut-center"><div class="donut-main">₹38L</div><div class="donut-sub">MTD Revenue</div></div>
+            </div>
+            <div class="donut-legend">
+              <div class="dl-item"><div class="dl-dot" style="background:var(--gold)"></div><div class="dl-info"><div class="dl-label">Commission (18%)</div><div class="dl-val">₹21.4L <span class="dl-pct">56%</span></div></div></div>
+              <div class="dl-item"><div class="dl-dot" style="background:var(--purple-mid)"></div><div class="dl-info"><div class="dl-label">Platform Fees (5%)</div><div class="dl-val">₹10.8L <span class="dl-pct">28%</span></div></div></div>
+              <div class="dl-item"><div class="dl-dot" style="background:var(--blue)"></div><div class="dl-info"><div class="dl-label">Boosts & Ads</div><div class="dl-val">₹4.2L <span class="dl-pct">11%</span></div></div></div>
+              <div class="dl-item"><div class="dl-dot" style="background:var(--green)"></div><div class="dl-info"><div class="dl-label">Subscriptions</div><div class="dl-val">₹2.0L <span class="dl-pct">5%</span></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <!-- Recent bookings -->
+      <div class="card">
+        <div class="ch"><div class="ct"><div class="cti ico-p">📋</div> Recent Bookings</div><button class="btn btn-ghost btn-sm" onclick="sw('bookings',null)">View All</button></div>
+        <div style="overflow-x:auto">
+          <table class="tbl">
+            <thead><tr><th>Client / Event</th><th>Artist</th><th>Date</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><div class="tbl-name">Kapoor–Mehta Wedding</div><div class="tbl-sub">💍 Delhi · ITC Grand</div></td><td><div class="tbl-name">Priya Sharma</div><div class="tbl-sub">🎤 Vocalist</div></td><td style="font-size:12px;color:var(--white-muted)">Jan 18, 2026</td><td><span style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light)">₹55K</span></td><td><div class="pill p-pend">● Pending</div></td><td><button class="btn btn-xs btn-ghost" onclick="showToast('Booking #4821 details opened','ok')">View</button></td></tr>
+              <tr><td><div class="tbl-name">TechCorp Annual Gala</div><div class="tbl-sub">🏢 Mumbai · BKC</div></td><td><div class="tbl-name">DJ Vortex</div><div class="tbl-sub">🎧 DJ</div></td><td style="font-size:12px;color:var(--white-muted)">Dec 21, 2025</td><td><span style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light)">₹40K</span></td><td><div class="pill p-conf">✓ Confirmed</div></td><td><button class="btn btn-xs btn-ghost" onclick="showToast('Booking #4820 details opened','ok')">View</button></td></tr>
+              <tr><td><div class="tbl-name">Reliance Industries Fest</div><div class="tbl-sub">🏢 Mumbai · BKC</div></td><td><div class="tbl-name">Priya Sharma</div><div class="tbl-sub">🎤 Vocalist</div></td><td style="font-size:12px;color:var(--white-muted)">Jan 25, 2026</td><td><span style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light)">₹1.2L</span></td><td><div class="pill p-esc">⏳ Escrow</div></td><td><button class="btn btn-xs btn-ghost" onclick="showToast('Booking #4819 details opened','ok')">View</button></td></tr>
+              <tr><td><div class="tbl-name">IIT Bombay Techfest</div><div class="tbl-sub">🎓 Mumbai · IIT Campus</div></td><td><div class="tbl-name">Rohit Gupta</div><div class="tbl-sub">🎭 Comedian</div></td><td style="font-size:12px;color:var(--white-muted)">Feb 3, 2026</td><td><span style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light)">₹35K</span></td><td><div class="pill p-comp">✓ Completed</div></td><td><button class="btn btn-xs btn-ghost" onclick="showToast('Booking #4818 details opened','ok')">View</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Approvals + Log -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <!-- Artist approvals -->
+        <div class="card">
+          <div class="ch"><div class="ct"><div class="cti ico-a">🪪</div> Artist Approvals</div><span style="font-size:10px;color:var(--white-muted)">9 pending KYC</span></div>
+          <div class="cb" style="padding-top:8px">
+            <div class="appr-row">
+              <div class="appr-av" style="background:linear-gradient(135deg,#1A0B3B,#4C1D95)">🎤</div>
+              <div class="appr-info"><div class="appr-name">Rohan Desai</div><div class="appr-meta">Stand-up · Bangalore · Documents submitted</div></div>
+              <div class="appr-actions">
+                <button class="btn btn-xs btn-green" onclick="approveArtist(this,'Rohan Desai')">✓ Approve</button>
+                <button class="btn btn-xs btn-red" onclick="showToast('Rohan Desai rejected','err')">✕</button>
+              </div>
+            </div>
+            <div class="appr-row">
+              <div class="appr-av" style="background:linear-gradient(135deg,#3B1A00,#92400E)">🎧</div>
+              <div class="appr-info"><div class="appr-name">Aisha Malhotra</div><div class="appr-meta">Vocalist · Delhi · KYC under review</div></div>
+              <div class="appr-actions">
+                <button class="btn btn-xs btn-green" onclick="approveArtist(this,'Aisha Malhotra')">✓ Approve</button>
+                <button class="btn btn-xs btn-red" onclick="showToast('Aisha Malhotra rejected','err')">✕</button>
+              </div>
+            </div>
+            <div class="appr-row">
+              <div class="appr-av" style="background:linear-gradient(135deg,#0B1A3B,#1E3A5F)">💃</div>
+              <div class="appr-info"><div class="appr-name">Kavita Ensemble</div><div class="appr-meta">Dance Troupe · Pune · Awaiting video</div></div>
+              <div class="appr-actions">
+                <button class="btn btn-xs btn-ghost" onclick="showToast('Reminder sent to Kavita Ensemble','ok')">Remind</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="card">
+          <div class="ch"><div class="ct"><div class="cti ico-b">🗂</div> Activity Log</div><span style="font-size:10px;color:var(--white-muted)">Real-time</span></div>
+          <div class="cb" style="padding-top:6px;max-height:188px;overflow-y:auto">
+            <div class="log-row"><span class="log-ico">💰</span><div class="log-body"><div class="log-msg">Payout of <strong>₹52,250</strong> released to <strong>Priya Sharma</strong></div><div class="log-time">2026-05-24 · 14:32:08</div></div></div>
+            <div class="log-row"><span class="log-ico">✅</span><div class="log-body"><div class="log-msg"><strong>Rohan Desai</strong> KYC documents verified by Admin #2</div><div class="log-time">2026-05-24 · 13:48:22</div></div></div>
+            <div class="log-row"><span class="log-ico">🚨</span><div class="log-body"><div class="log-msg">Fraud flag on User <strong>#4821</strong> — multiple cancelled bookings</div><div class="log-time">2026-05-24 · 12:11:55</div></div></div>
+            <div class="log-row"><span class="log-ico">🎫</span><div class="log-body"><div class="log-msg">Coupon <strong>WEDDING20</strong> created — 20% off weddings</div><div class="log-time">2026-05-24 · 10:02:17</div></div></div>
+            <div class="log-row"><span class="log-ico">📝</span><div class="log-body"><div class="log-msg">Homepage banner updated by <strong>Admin Vikram</strong></div><div class="log-time">2026-05-23 · 17:44:01</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Geography + Top Artists -->
+    <div class="g2">
+      <div class="card">
+        <div class="ch"><div class="ct"><div class="cti ico-c">🗺</div> Bookings by City</div></div>
+        <div class="cb">
+          <div class="india-map">🗺<span style="font-size:12px">India heatmap — integrate Mapbox / Google Maps for live data</span></div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px">
+            <div style="background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:10px;color:var(--white-muted)">Mumbai</div><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold-light)">1,240</div></div>
+            <div style="background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:10px;color:var(--white-muted)">Delhi/NCR</div><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold-light)">980</div></div>
+            <div style="background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:10px;color:var(--white-muted)">Bangalore</div><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold-light)">740</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ch"><div class="ct"><div class="cti ico-g">🏆</div> Top Earning Artists</div></div>
+        <div style="overflow-x:auto">
+          <table class="tbl">
+            <thead><tr><th>#</th><th>Artist</th><th>Bookings</th><th>Earnings</th><th>Rating</th></tr></thead>
+            <tbody>
+              <tr><td style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold-light)">1</td><td><div style="display:flex;align-items:center;gap:8px"><div class="tbl-avatar" style="background:linear-gradient(135deg,#1A0B3B,#6D28D9)">🎤</div><div><div class="tbl-name">Priya Sharma</div><div class="tbl-sub">Vocalist · Mumbai</div></div></div></td><td style="font-size:13px;font-weight:600;color:var(--white)">312</td><td style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light)">₹28.4L</td><td><span style="color:var(--gold);font-size:13px">★ 4.9</span></td></tr>
+              <tr><td style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:rgba(192,192,192,0.8)">2</td><td><div style="display:flex;align-items:center;gap:8px"><div class="tbl-avatar" style="background:linear-gradient(135deg,#3B1A00,#92400E)">🎧</div><div><div class="tbl-name">DJ Vortex</div><div class="tbl-sub">DJ · Delhi</div></div></div></td><td style="font-size:13px;font-weight:600;color:var(--white)">248</td><td style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light)">₹19.8L</td><td><span style="color:var(--gold);font-size:13px">★ 4.8</span></td></tr>
+              <tr><td style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:rgba(180,120,80,0.8)">3</td><td><div style="display:flex;align-items:center;gap:8px"><div class="tbl-avatar" style="background:linear-gradient(135deg,#0B1A3B,#1E3A5F)">🎭</div><div><div class="tbl-name">Rohit Gupta</div><div class="tbl-sub">Comedian · Bangalore</div></div></div></td><td style="font-size:13px;font-weight:600;color:var(--white)">196</td><td style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light)">₹11.2L</td><td><span style="color:var(--gold);font-size:13px">★ 4.7</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ARTISTS PAGE ══ -->
+  <div class="page-inner" id="pg-artists">
+    <div class="ws"><div><h2>Artist <span>Management</span></h2><p>5,200 registered artists · 7 new pending approval</p></div><div style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" onclick="showToast('📥 Exporting artists CSV…','ok')">Export CSV</button><button class="btn btn-gold btn-sm" onclick="openModal('addArtist')">+ Add Artist</button></div></div>
+    <div class="user-filter">
+      <button class="uf-btn act" onclick="filterTab(this)">All (5,200)</button>
+      <button class="uf-btn" onclick="filterTab(this)">Verified (4,890)</button>
+      <button class="uf-btn" onclick="filterTab(this)">Pending KYC (9)</button>
+      <button class="uf-btn" onclick="filterTab(this)">Featured (48)</button>
+      <button class="uf-btn" onclick="filterTab(this)">Suspended (12)</button>
+    </div>
+    <div class="card">
+      <div class="ch" style="padding-bottom:12px">
+        <div class="ct"><div class="cti ico-p">🎤</div> Artists</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <select class="mi" style="width:140px;padding:6px 10px;font-size:12px">
+            <option>All Categories</option><option>Singers</option><option>DJs</option><option>Comedians</option><option>Anchors</option><option>Dancers</option>
+          </select>
+          <select class="mi" style="width:120px;padding:6px 10px;font-size:12px">
+            <option>All Cities</option><option>Mumbai</option><option>Delhi</option><option>Bangalore</option>
+          </select>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="tbl">
+          <thead><tr><th>Artist</th><th>Category</th><th>City</th><th>Bookings</th><th>Rating</th><th>Revenue</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="tbl-avatar" style="background:linear-gradient(135deg,#1A0B3B,#6D28D9)">🎤</div><div><div class="tbl-name">Priya Sharma</div><div class="tbl-sub">ID: ART-1021</div></div></div></td><td style="font-size:12px;color:var(--white-muted)">Vocalist</td><td style="font-size:12px;color:var(--white-muted)">Mumbai</td><td style="font-weight:600;color:var(--white)">312</td><td><span style="color:var(--gold);font-size:12px">★ 4.9</span></td><td style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light)">₹28.4L</td><td><div class="pill p-verif">✓ Verified</div></td><td><div style="display:flex;gap:5px"><button class="btn btn-xs btn-ghost" onclick="showToast('Profile opened for Priya Sharma','ok')">View</button><button class="btn btn-xs btn-red" onclick="showToast('Priya Sharma suspended','err')">Suspend</button></div></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="tbl-avatar" style="background:linear-gradient(135deg,#3B1A00,#92400E)">🎧</div><div><div class="tbl-name">DJ Vortex</div><div class="tbl-sub">ID: ART-1022</div></div></div></td><td style="font-size:12px;color:var(--white-muted)">DJ</td><td style="font-size:12px;color:var(--white-muted)">Delhi</td><td style="font-weight:600;color:var(--white)">248</td><td><span style="color:var(--gold);font-size:12px">★ 4.8</span></td><td style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light)">₹19.8L</td><td><div class="pill p-verif">✓ Verified</div></td><td><div style="display:flex;gap:5px"><button class="btn btn-xs btn-ghost" onclick="showToast('Profile opened for DJ Vortex','ok')">View</button><button class="btn btn-xs btn-ghost" onclick="showToast('DJ Vortex set as Featured','ok')">Feature</button></div></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="tbl-avatar" style="background:linear-gradient(135deg,#1A3B0B,#2D6919)">🎤</div><div><div class="tbl-name">Rohan Desai</div><div class="tbl-sub">ID: ART-1028</div></div></div></td><td style="font-size:12px;color:var(--white-muted)">Stand-up</td><td style="font-size:12px;color:var(--white-muted)">Bangalore</td><td style="font-weight:600;color:var(--white)">0</td><td><span style="color:var(--white-muted);font-size:12px">—</span></td><td style="font-size:12px;color:var(--white-muted)">—</td><td><div class="pill p-pend-v">● KYC Pending</div></td><td><div style="display:flex;gap:5px"><button class="btn btn-xs btn-green" onclick="approveArtist(this,'Rohan Desai')">✓ Approve</button><button class="btn btn-xs btn-red" onclick="showToast('Rohan Desai rejected','err')">✕ Reject</button></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAYOUTS ══ -->
+  <div class="page-inner" id="pg-payouts">
+    <div class="ws"><div><h2>Payout <span>Management</span></h2><p>18 pending payouts · ₹2.4L awaiting release</p></div><button class="btn btn-gold btn-sm" onclick="showToast('✓ All pending payouts approved','ok')">Approve All Pending</button></div>
+    <div class="kpi3" style="margin-bottom:18px">
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-a">⏳</div></div><div class="kpi-num">18</div><div class="kpi-lbl">Pending Payouts</div><div class="kpi-sub">₹2,42,000 total</div></div>
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-gr">✓</div><div class="kpi-chg up">MTD</div></div><div class="kpi-num">₹1.8Cr</div><div class="kpi-lbl">Payouts Processed (MTD)</div></div>
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-g">💰</div></div><div class="kpi-num">₹5.3Cr</div><div class="kpi-lbl">Total in Escrow</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="cti ico-a">↑</div> Pending Payouts</div></div>
+      <div style="overflow-x:auto">
+        <table class="tbl">
+          <thead><tr><th>Artist</th><th>Event</th><th>Completed</th><th>Amount</th><th>Bank</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><div class="tbl-name">Priya Sharma</div></td><td style="font-size:12px;color:var(--white-muted)">TechCorp Gala</td><td style="font-size:12px;color:var(--white-muted)">Dec 21</td><td style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light)">₹52,250</td><td style="font-size:12px;color:var(--white-muted)">HDFC ****4821</td><td><div class="pill p-pend">● Pending</div></td><td><button class="btn btn-xs btn-green" onclick="releasePayout(this,'Priya Sharma','₹52,250')">Release</button></td></tr>
+            <tr><td><div class="tbl-name">DJ Vortex</div></td><td style="font-size:12px;color:var(--white-muted)">Birthday Party</td><td style="font-size:12px;color:var(--white-muted)">Dec 18</td><td style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light)">₹38,000</td><td style="font-size:12px;color:var(--white-muted)">ICICI ****2290</td><td><div class="pill p-pend">● Pending</div></td><td><button class="btn btn-xs btn-green" onclick="releasePayout(this,'DJ Vortex','₹38,000')">Release</button></td></tr>
+            <tr><td><div class="tbl-name">Rohit Gupta</div></td><td style="font-size:12px;color:var(--white-muted)">IIT Fest</td><td style="font-size:12px;color:var(--white-muted)">Feb 3</td><td style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light)">₹33,250</td><td style="font-size:12px;color:var(--white-muted)">SBI ****8811</td><td><div class="pill p-conf">✓ Processed</div></td><td><button class="btn btn-xs btn-ghost" onclick="showToast('Payout receipt downloaded','ok')">Receipt</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ COUPONS ══ -->
+  <div class="page-inner" id="pg-coupons">
+    <div class="ws"><div><h2>Coupon <span>Management</span></h2><p>Manage promotional codes and discount campaigns</p></div><button class="btn btn-gold btn-sm" onclick="openModal('createCoupon')">+ Create Coupon</button></div>
+    <div class="kpi3" style="margin-bottom:18px">
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-gr">🎫</div></div><div class="kpi-num">24</div><div class="kpi-lbl">Active Coupons</div></div>
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-g">₹</div><div class="kpi-chg dn">↓ Discount</div></div><div class="kpi-num">₹8.4L</div><div class="kpi-lbl">Total Discounts Given</div></div>
+      <div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-p">🔢</div></div><div class="kpi-num">1,284</div><div class="kpi-lbl">Total Redemptions</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="cti ico-gr">🎫</div> Active Coupons</div></div>
+      <div style="overflow-x:auto">
+        <table class="tbl">
+          <thead><tr><th>Code</th><th>Type</th><th>Discount</th><th>Usage</th><th>Expires</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold-light);background:var(--gold-dim);padding:3px 8px;border-radius:5px">WEDDING20</code></td><td style="font-size:12px;color:var(--white-muted)">Wedding bookings</td><td style="font-size:13px;font-weight:600;color:var(--white)">20% OFF</td><td style="font-size:12px;color:var(--white-muted)">284 / 500</td><td style="font-size:12px;color:var(--white-muted)">Jan 31, 2026</td><td><div class="pill p-conf">✓ Active</div></td><td><div style="display:flex;gap:5px"><button class="btn btn-xs btn-ghost" onclick="showToast('WEDDING20 edited','ok')">Edit</button><button class="btn btn-xs btn-red" onclick="showToast('WEDDING20 deactivated','err')">Deactivate</button></div></td></tr>
+            <tr><td><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold-light);background:var(--gold-dim);padding:3px 8px;border-radius:5px">CORP15</code></td><td style="font-size:12px;color:var(--white-muted)">Corporate events</td><td style="font-size:13px;font-weight:600;color:var(--white)">15% OFF</td><td style="font-size:12px;color:var(--white-muted)">142 / 200</td><td style="font-size:12px;color:var(--white-muted)">Dec 31, 2025</td><td><div class="pill p-conf">✓ Active</div></td><td><div style="display:flex;gap:5px"><button class="btn btn-xs btn-ghost" onclick="showToast('CORP15 edited','ok')">Edit</button><button class="btn btn-xs btn-red" onclick="showToast('CORP15 deactivated','err')">Deactivate</button></div></td></tr>
+            <tr><td><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(240,238,255,0.4);background:rgba(255,255,255,0.03);padding:3px 8px;border-radius:5px">FIRST500</code></td><td style="font-size:12px;color:var(--white-muted)">First booking</td><td style="font-size:13px;font-weight:600;color:var(--white)">₹500 OFF</td><td style="font-size:12px;color:var(--white-muted)">500 / 500</td><td style="font-size:12px;color:var(--white-muted)">Expired</td><td><div class="pill p-decl">✕ Expired</div></td><td><button class="btn btn-xs btn-ghost" onclick="showToast('FIRST500 reactivated','ok')">Reactivate</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PLACEHOLDER PAGES ══ -->
+  <div class="page-inner" id="pg-bookings"><div class="ws"><div><h2>All <span>Bookings</span></h2><p>2,840 total bookings · 98 pending action</p></div><button class="btn btn-gold btn-sm" onclick="showToast('📥 Exporting bookings…','ok')">Export</button></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">📋</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">Full Bookings Table</div><div style="font-size:13px;color:var(--white-muted)">Full-featured bookings table with filters by status, city, date range, artist, and customer with bulk action support.</div></div></div></div>
+  <div class="page-inner" id="pg-revenue"><div class="ws"><div><h2>Revenue <span>Analytics</span></h2></div></div><div class="kpi4"><div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-g">💰</div><div class="kpi-chg up">↑ 22%</div></div><div class="kpi-num">₹4.2Cr</div><div class="kpi-lbl">GMV This Month</div></div><div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-p">🏦</div></div><div class="kpi-num">₹38.4L</div><div class="kpi-lbl">Net Revenue</div></div><div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-gr">%</div></div><div class="kpi-num">9.1%</div><div class="kpi-lbl">Take Rate</div></div><div class="kpi-c"><div class="kpi-top"><div class="kpi-ico ico-a">📈</div></div><div class="kpi-num">₹21.2Cr</div><div class="kpi-lbl">YTD GMV</div></div></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">📊</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">Revenue Analytics Suite</div><div style="font-size:13px;color:var(--white-muted)">Detailed revenue breakdown by city, category, time period with cohort analysis and forecasting.</div></div></div></div>
+  <div class="page-inner" id="pg-live"><div class="ws"><div><h2>Live <span>Monitor</span></h2><p>Real-time platform activity</p></div><div class="tb-badge" style="display:inline-flex"><span class="tb-badge-dot"></span> 3 Active Events</div></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">🔴</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">Live Event Monitor</div><div style="font-size:13px;color:var(--white-muted)">Real-time feeds of active bookings, ongoing performances, payment streams, and system health.</div></div></div></div>
+  <div class="page-inner" id="pg-customers"><div class="ws"><div><h2>Customer <span>Management</span></h2></div></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">👥</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">Customer Database</div><div style="font-size:13px;color:var(--white-muted)">Full customer table with search, filtering by tier, activity, bookings and spending.</div></div></div></div>
+  <div class="page-inner" id="pg-agencies"><div class="ws"><div><h2>Agency <span>Management</span></h2></div></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">🏢</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">Agency Portal</div><div style="font-size:13px;color:var(--white-muted)">Manage talent agencies, their artist rosters, commission structures and billing.</div></div></div></div>
+  <div class="page-inner" id="pg-kyc"><div class="ws"><div><h2>KYC <span>Verification Queue</span></h2><p>9 documents awaiting review</p></div></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">🪪</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">KYC Review Interface</div><div style="font-size:13px;color:var(--white-muted)">Document viewer, ID verification, face match, and one-click approve/reject with audit trail.</div></div></div></div>
+  <div class="page-inner" id="pg-refunds"><div class="ws"><div><h2>Refund <span>Management</span></h2></div></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">↩</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">Refund Queue</div><div style="font-size:13px;color:var(--white-muted)">Manage refund requests with policy checks, partial/full refund processing and automated customer notifications.</div></div></div></div>
+  <div class="page-inner" id="pg-commission"><div class="ws"><div><h2>Commission <span>Settings</span></h2></div></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">%</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">Commission Engine</div><div style="font-size:13px;color:var(--white-muted)">Configure platform commission rates by artist tier, category, city, and booking value. Set sliding-scale rules.</div></div></div></div>
+  <div class="page-inner" id="pg-gst"><div class="ws"><div><h2>GST & <span>Tax</span></h2></div></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">🧾</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">GST Management</div><div style="font-size:13px;color:var(--white-muted)">Auto GST invoice generation, GSTIN management, TDS deduction tracking and monthly filing reports.</div></div></div></div>
+  <div class="page-inner" id="pg-cms"><div class="ws"><div><h2>Content <span>Management</span></h2></div><button class="btn btn-gold btn-sm" onclick="showToast('✓ Changes published','ok')">Publish Changes</button></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">📝</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">CMS Editor</div><div style="font-size:13px;color:var(--white-muted)">Edit homepage banners, featured sections, blog posts, FAQs, landing pages and promotional content.</div></div></div></div>
+  <div class="page-inner" id="pg-reports"><div class="ws"><div><h2>Platform <span>Reports</span></h2></div><button class="btn btn-gold btn-sm" onclick="showToast('📥 Generating report…','ok')">Generate Report</button></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">📊</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">Reports Centre</div><div style="font-size:13px;color:var(--white-muted)">GMV reports, artist performance, city-wise analytics, fraud reports, churn analysis — exportable as PDF/CSV.</div></div></div></div>
+  <div class="page-inner" id="pg-roles"><div class="ws"><div><h2>Roles & <span>Permissions</span></h2></div><button class="btn btn-gold btn-sm" onclick="showToast('Role saved','ok')">+ New Role</button></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">🔐</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">Role Management</div><div style="font-size:13px;color:var(--white-muted)">Define Super Admin, Finance Admin, Support Agent, Content Editor roles with granular permission matrices.</div></div></div></div>
+  <div class="page-inner" id="pg-audit"><div class="ws"><div><h2>Audit <span>Logs</span></h2></div></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">🗂</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">Immutable Audit Trail</div><div style="font-size:13px;color:var(--white-muted)">Every admin action logged with timestamp, admin ID, IP address and before/after state. Exportable and searchable.</div></div></div></div>
+  <div class="page-inner" id="pg-settings"><div class="ws"><div><h2>Platform <span>Settings</span></h2></div><button class="btn btn-gold btn-sm" onclick="showToast('✓ Settings saved','ok')">Save All</button></div><div class="card"><div style="padding:36px;text-align:center"><div style="font-size:40px;margin-bottom:12px">⚙</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">Global Settings</div><div style="font-size:13px;color:var(--white-muted)">Configure platform-wide settings: payment gateways, email templates, SMS providers, API keys, maintenance mode.</div></div></div></div>
+
+  </div><!-- /pc -->
+</main>
+
+<!-- MODALS -->
+<div class="modal-ov" id="modalOv" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-x" onclick="closeModal()">×</div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── PAGE SWITCHING ──
+const pages=['overview','bookings','revenue','live','artists','customers','agencies','kyc','payouts','refunds','commission','gst','cms','coupons','reports','roles','audit','settings'];
+const titles={overview:'Admin <span>Overview</span>',bookings:'All <span>Bookings</span>',revenue:'Revenue <span>Analytics</span>',live:'Live <span>Monitor</span>',artists:'Artist <span>Management</span>',customers:'Customer <span>Management</span>',agencies:'Agency <span>Management</span>',kyc:'KYC <span>Queue</span>',payouts:'Payout <span>Management</span>',refunds:'Refund <span>Management</span>',commission:'Commission <span>Settings</span>',gst:'GST & <span>Tax</span>',cms:'Content <span>Management</span>',coupons:'Coupon <span>Management</span>',reports:'Platform <span>Reports</span>',roles:'Roles & <span>Permissions</span>',audit:'<span>Audit Logs</span>',settings:'Platform <span>Settings</span>'};
+
+function sw(id, btn) {
+  pages.forEach(p => {
+    const el = document.getElementById('pg-'+p);
+    if(el) el.classList.toggle('active', p===id);
+  });
+  document.querySelectorAll('.sb-lnk').forEach(l => l.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const t=document.getElementById('tbTitle');
+  if(t) t.innerHTML = titles[id]||id;
+}
+
+// ── ACTIONS ──
+function approveArtist(btn, name) {
+  const row = btn.closest('.appr-row') || btn.closest('tr');
+  if(row) {
+    const pill = row.querySelector('.pill');
+    if(pill) {pill.className='pill p-verif';pill.textContent='✓ Verified';}
+    const actions = row.querySelector('.appr-actions') || row.querySelector('td:last-child');
+    if(actions) actions.innerHTML='<button class="btn btn-xs btn-ghost" onclick="showToast(\'Profile viewed\',\'ok\')">View</button>';
+  }
+  showToast('✓ '+name+' approved and verified!','ok');
+}
+function releasePayout(btn, name, amt) {
+  const row = btn.closest('tr');
+  const pill = row.querySelector('.pill');
+  pill.className='pill p-conf';pill.textContent='✓ Processed';
+  btn.textContent='Receipt'; btn.className='btn btn-xs btn-ghost';
+  btn.onclick=()=>showToast('Payout receipt downloaded','ok');
+  showToast('✓ Payout of '+amt+' released to '+name,'ok');
+}
+function filterTab(btn) {
+  document.querySelectorAll('.uf-btn').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  showToast('Filtered: '+btn.textContent,'ok');
+}
+
+// ── MODALS ──
+const modalTemplates = {
+  announcement:{title:'New Announcement',sub:'Broadcast a message to all users',body:`<div class="mf"><div class="ml">Title</div><input class="mi" placeholder="e.g. Platform Maintenance Notice"></div><div class="mf"><div class="ml">Message</div><textarea class="mi" rows="3" placeholder="Enter your announcement…" style="resize:vertical"></textarea></div><div class="mf"><div class="ml">Audience</div><select class="mi"><option>All Users</option><option>Artists Only</option><option>Customers Only</option><option>Agencies Only</option></select></div><button class="btn btn-gold" style="width:100%;justify-content:center" onclick="closeModal();showToast('✓ Announcement sent to all users','ok')">Send Announcement</button>`},
+  createCoupon:{title:'Create Coupon',sub:'Add a new discount code',body:`<div class="mf"><div class="ml">Coupon Code</div><input class="mi" placeholder="e.g. SUMMER25" style="text-transform:uppercase"></div><div class="mf"><div class="ml">Discount Type</div><select class="mi"><option>Percentage (%)</option><option>Fixed Amount (₹)</option></select></div><div class="mf"><div class="ml">Value</div><input class="mi" type="number" placeholder="e.g. 20"></div><div class="mf"><div class="ml">Max Usage</div><input class="mi" type="number" placeholder="e.g. 500"></div><div class="mf"><div class="ml">Expiry Date</div><input class="mi" type="date"></div><button class="btn btn-gold" style="width:100%;justify-content:center" onclick="closeModal();showToast('✓ Coupon created successfully','ok')">Create Coupon</button>`},
+  addArtist:{title:'Add Artist Manually',sub:'Onboard an artist directly to the platform',body:`<div class="mf"><div class="ml">Full Name</div><input class="mi" placeholder="Artist full name"></div><div class="mf"><div class="ml">Category</div><select class="mi"><option>Singer/Vocalist</option><option>DJ</option><option>Stand-up Comedian</option><option>Anchor/Emcee</option><option>Dancer</option></select></div><div class="mf"><div class="ml">City</div><input class="mi" placeholder="e.g. Mumbai"></div><div class="mf"><div class="ml">Starting Price (₹)</div><input class="mi" type="number" placeholder="e.g. 35000"></div><button class="btn btn-gold" style="width:100%;justify-content:center" onclick="closeModal();showToast('✓ Artist added and onboarding email sent','ok')">Add & Invite Artist</button>`},
+};
+function openModal(type) {
+  const t = modalTemplates[type];
+  if(!t) return;
+  document.getElementById('modalContent').innerHTML=`<div class="modal-title">${t.title}</div><div class="modal-sub">${t.sub}</div>${t.body}`;
+  document.getElementById('modalOv').classList.add('open');
+}
+function closeModal() { document.getElementById('modalOv').classList.remove('open'); }
+function showNotifPanel() { showToast('🔔 Notifications panel — 6 unread','ok'); }
+
+// ── TOAST ──
+function showToast(msg, type='') {
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast '+(type==='ok'?'ok':type==='err'?'err':'');
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── BAR CHART ──
+function buildAdminChart() {
+  const chart = document.getElementById('adminChart');
+  if(!chart) return;
+  const data=[{lbl:'Jul',v:62,b:280},{lbl:'Aug',v:78,b:320},{lbl:'Sep',v:71,b:295},{lbl:'Oct',v:108,b:410},{lbl:'Nov',v:148,b:520},{lbl:'Dec',v:240,b:680}];
+  const maxV=Math.max(...data.map(d=>d.v));
+  const maxB=Math.max(...data.map(d=>d.b));
+  chart.innerHTML='';
+  data.forEach((d,i) => {
+    const col=document.createElement('div');
+    col.className='bc-col';
+    col.innerHTML=`<div style="display:flex;gap:3px;align-items:flex-end;width:100%;height:128px"><div class="bc-b" style="width:45%;height:0;background:rgba(124,58,237,0.6);transition:height 0.7s cubic-bezier(0.34,1.56,0.64,1);transition-delay:${i*0.08}s;border-radius:4px 4px 0 0"></div><div class="bc-b" style="width:45%;height:0;background:rgba(212,175,55,0.5);transition:height 0.7s cubic-bezier(0.34,1.56,0.64,1);transition-delay:${i*0.08+0.04}s;border-radius:4px 4px 0 0"></div></div><div class="bc-lbl">${d.lbl}</div>`;
+    chart.appendChild(col);
+    setTimeout(()=>{
+      const bars=col.querySelectorAll('.bc-b');
+      bars[0].style.height=(d.v/maxV*100)+'%';
+      bars[1].style.height=(d.b/maxB*100)+'%';
+    },200);
+  });
+}
+buildAdminChart();
+</script>
+</body>
+</html>
